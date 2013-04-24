@@ -1,7 +1,7 @@
 define('mygame', ['lyria/game'], function(Game) {
   'use strict';
   
-	var myGame = Game();
+	var myGame = new Game();
 	
 	myGame.director.add('scene1');
 	myGame.director.add('scene2');
