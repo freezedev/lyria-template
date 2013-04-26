@@ -7,7 +7,7 @@ module.exports = function(scenePath, output, callback) {
   
   var sceneObject = '(function(Lyria) {\n\n';
   sceneObject += '\tLyria.Scenes = Lyria.Scenes || {};\n';
-  sceneObject += '\trequire(["lyria/scene"], function(Scene) {';
+  sceneObject += '\trequire(["lyria/scene", "lyria/template/engine"], function(Scene, TemplateEngine) {';
   
   var sceneList = fs.readdirSync(scenePath);
   
@@ -33,7 +33,7 @@ module.exports = function(scenePath, output, callback) {
         }
         
         if (fs.existsSync(sceneMarkup)) {
-          sceneObject += 'this.template = Lyria.TemplateEngine.compile(' + handlebars.precompile(fs.readFileSync(sceneMarkup, 'utf8')) + ');';
+          sceneObject += 'this.template = TemplateEngine.compile(' + handlebars.precompile(fs.readFileSync(sceneMarkup, 'utf8')) + ');';
         }
         
         
