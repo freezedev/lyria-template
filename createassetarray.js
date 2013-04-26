@@ -19,6 +19,8 @@ var walkFiles = function(dir, action, done) {
   var pending = 0;
 
   var fail = function(err) {
+    console.log(err);
+    
     if (!dead) {
       dead = true;
       done(err);
@@ -93,11 +95,11 @@ var walkFiles = function(dir, action, done) {
 function getFilesRecursively(root, options, callback) {
   if ( typeof options === "function") {
     callback = options;
-    options = undefined;
+    options = {};
   }
   
   curFiles = [];
-
+  
   walkFiles(root, function(file, stat) {
     if (!options.dotFiles) {
       if (file.contains(path.sep + '.'))
@@ -131,7 +133,7 @@ function getFilesRecursively(root, options, callback) {
 }
 
 module.exports = function(dir, callback) {
-  
+
   getFilesRecursively(path.join(dir, 'assets'), function(curFiles) {
     
     var assetArray = [];
