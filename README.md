@@ -1,11 +1,20 @@
-lyria-template
-==============
-
-Lyria Template
+Lyria Project Template
+======================
 
 Dependencies
 ------------
+
+* Handlebars Runtime (default templating engine of Lyria)
+* Require.JS or any other AMD loader (Lyria uses with Almond.JS by default)
+* Modernizr (Optional, but included by default)
+* Detectr
+* checkt
+
+Developer dependencies
+----------------------
 * Grunt
+* Handlebars
+* LESS (Lyria bundles uses LESS, but any other CSS preprocessor can be used as well)
 
 Getting started:
 `npm install`
