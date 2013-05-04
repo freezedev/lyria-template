@@ -26,6 +26,6 @@ Go ahead and download the latest template version.
 Navigate into the folder where extracted the template and run `npm install`.
 
 Using the lyria template:
-`grunt development`: Builds the current project
-`grunt production`: Builds the current project, minifies everything and places it in the `builds` folder
-`grunt deploy`: Does a production builds and makes a package out of it
+* `grunt development`: Builds the current project
+* `grunt production`: Builds the current project, minifies everything and places it in the `builds` folder
+* `grunt deploy`: Does a production builds and makes a package out of it
