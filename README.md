@@ -16,8 +16,14 @@ Developer dependencies
 * Handlebars
 * LESS (Lyria bundles uses LESS, but any other CSS preprocessor can be used as well)
 
-Getting started:
-`npm install`
+Getting started
+---------------
+
+Prerequisites:  
+Node.js 0.10 or higher needs to be installed
+  
+Go ahead and download the latest template version.  
+Navigate into the folder where extracted the template and run `npm install`.
 
 Using the lyria template:
 `grunt development`: Builds the current project
