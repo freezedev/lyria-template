@@ -3,11 +3,10 @@ var path = require('path');
 var handlebars = require('handlebars');
 var UglifyJS = require('uglify-js');
 
-module.exports = function(scenePath, output, callback) {
+module.exports = function(namespace, scenePath, output, callback) {
   
-  var sceneObject = '(function(Lyria) {\n\n';
-  sceneObject += '\tLyria.Scenes = Lyria.Scenes || {};\n';
-  sceneObject += '\trequire(["lyria/scene", "lyria/template/engine"], function(Scene, TemplateEngine) {';
+  var sceneObject = 'define("' + namespace + '/scenelist", ["lyria/scene", "lyria/template/engine"], function(Scene, TemplateEngine) {\n';
+  sceneObject += '\tvar sceneList = {};\n';
   
   var sceneList = fs.readdirSync(scenePath);
   
@@ -18,7 +17,7 @@ module.exports = function(scenePath, output, callback) {
         
         sceneObject[scene] = {};
         
-        sceneObject += 'Lyria.Scenes["' + scene + '"] = new Scene("' + scene + '", function(scene) {';
+        sceneObject += '\tsceneList["' + scene + '"] = new Scene("' + scene + '", function(scene) {\n';
         
         var sceneFunc = path.join(scenePath, scene, 'scene.js');
         var sceneLoc = path.join(scenePath, scene, 'localization.json');
@@ -26,31 +25,33 @@ module.exports = function(scenePath, output, callback) {
         
         if (fs.existsSync(sceneLoc)) {
           try {
-            sceneObject += 'this.localization = ' + fs.readFileSync(sceneLoc) + ';';          
+            sceneObject += '\t\tthis.localization = ' + fs.readFileSync(sceneLoc) + ';\n';          
           } catch (e) {
             console.log('Error while evaluating ' + sceneLoc + ' :' + e);
           }
         }
         
         if (fs.existsSync(sceneMarkup)) {
-          sceneObject += 'this.template = TemplateEngine.compile(' + handlebars.precompile(fs.readFileSync(sceneMarkup, 'utf8')) + ');';
+          sceneObject += '\t\tthis.template = TemplateEngine.compile(' + handlebars.precompile(fs.readFileSync(sceneMarkup, 'utf8')) + ');\n';
         }
         
         
         if (fs.existsSync(sceneFunc)) {
-          sceneObject += 'return ' + fs.readFileSync(sceneFunc, 'utf8') + ';';
+          sceneObject += '\t\tvar sceneFunc = ' + fs.readFileSync(sceneFunc, 'utf8') + ';\n';
+          sceneObject += '\t\tif (typeof sceneFunc === "function") { sceneFunc = sceneFunc.apply(scene, scene); }';
+          sceneObject += '\t\treturn sceneFunc;';
         }
         
         
-        sceneObject += '});'
+        sceneObject += '\t});\n';
       }
     }
     
   });
   
-  sceneObject += '\t});\n';
+  sceneObject += '\treturn sceneList;\n';
   
-  sceneObject += '})(this.Lyria = this.Lyria || {});';
+  sceneObject += '});';
   
   fs.writeFile(output, sceneObject, 'utf8', function(err) {
     if (err) {
@@ -61,5 +62,5 @@ module.exports = function(scenePath, output, callback) {
       callback();      
     }
   });
-}
+};
 
