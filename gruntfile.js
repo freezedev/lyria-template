@@ -66,9 +66,9 @@ module.exports = function(grunt) {
     
     assetObject.totalSize = assetSize;
 
-    grunt.file.write(path.join(dir, 'src', 'assetlist.js'), 'define("' + projectName + '/assetlist",' + JSON.stringify(assetObject) + ');');
+    grunt.file.write(path.join(dir, 'src', 'generated', 'assetlist.js'), 'define("' + projectName + '/assetlist",' + JSON.stringify(assetObject) + ');');
 
-    prepareScenes(projectName, path.join(dir, 'assets', 'scenes'), path.join(dir, 'src', 'scenelist.js'), function() {
+    prepareScenes(projectName, path.join(dir, 'assets', 'scenes'), path.join(dir, 'src', 'generated', 'scenelist.js'), function() {
       grunt.log.writeln('Project built');
       done();
     });
