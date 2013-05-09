@@ -38,7 +38,7 @@ module.exports = function(namespace, scenePath, output, callback) {
         
         if (fs.existsSync(sceneFunc)) {
           sceneObject += '\t\tvar sceneFunc = ' + fs.readFileSync(sceneFunc, 'utf8') + ';\n';
-          sceneObject += '\t\tif (typeof sceneFunc === "function") { sceneFunc = sceneFunc.apply(scene, scene); }';
+          sceneObject += '\t\tif (typeof sceneFunc === "function") { sceneFunc = sceneFunc.apply(scene, [scene]); }';
           sceneObject += '\t\treturn sceneFunc;';
         }
         
