@@ -3,6 +3,8 @@ var path = require('path');
 var handlebars = require('handlebars');
 var UglifyJS = require('uglify-js');
 
+var defaultSceneTemplate = "{{#if gameobject}}\n  {{#each gameobject}}\n    <div id=\"{{name}}\">{{{content}}}</div>\n  {{/each}}\n{{/if}}\n\n{{#if prefab}}\n  {{#each prefab}}\n    <div id=\"{{name}}\">{{{content}}}</div>\n  {{/each}}\n{{/if}}\n\n{{#if guilayer}}\n  {{{guilayer.content}}}\n{{/if}}";
+
 module.exports = function(namespace, scenePath, output, callback) {
   
   var sceneObject = 'define("' + namespace + '/scenelist", ["lyria/scene", "lyria/template/engine"], function(Scene, TemplateEngine) {\n';
@@ -31,8 +33,12 @@ module.exports = function(namespace, scenePath, output, callback) {
           }
         }
         
+        sceneObject += '\t\tthis.template = this.template || {};\n';
+        
         if (fs.existsSync(sceneMarkup)) {
-          sceneObject += '\t\tthis.template = TemplateEngine.compile(' + handlebars.precompile(fs.readFileSync(sceneMarkup, 'utf8')) + ');\n';
+          sceneObject += '\t\tthis.template.source = TemplateEngine.compile(' + handlebars.precompile(fs.readFileSync(sceneMarkup, 'utf8') + '\n' + defaultSceneTemplate) + ');\n';
+        } else {
+          sceneObject += '\t\tthis.template.source = TemplateEngine.compile(' + handlebars.precompile(defaultSceneTemplate) + ');\n';
         }
         
         
