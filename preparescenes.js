@@ -19,7 +19,7 @@ module.exports = function(namespace, scenePath, output, callback) {
         
         sceneObject[scene] = {};
         
-        sceneObject += '\tsceneList["' + scene + '"] = new Scene("' + scene + '", function(scene) {\n';
+        sceneObject += '\tsceneList["' + scene + '"] = new Scene("' + scene + '", function(scene, Lyria) {\n';
         
         var sceneFunc = path.join(scenePath, scene, 'scene.js');
         var sceneLoc = path.join(scenePath, scene, 'localization.json');
@@ -44,7 +44,7 @@ module.exports = function(namespace, scenePath, output, callback) {
         
         if (fs.existsSync(sceneFunc)) {
           sceneObject += '\t\tvar sceneFunc = ' + fs.readFileSync(sceneFunc, 'utf8') + ';\n';
-          sceneObject += '\t\tif (typeof sceneFunc === "function") { sceneFunc = sceneFunc.apply(scene, [scene]); }';
+          sceneObject += '\t\tif (typeof sceneFunc === "function") { sceneFunc = sceneFunc.apply(scene, [scene, Lyria]); }';
           sceneObject += '\t\treturn sceneFunc;';
         }
         
@@ -69,4 +69,3 @@ module.exports = function(namespace, scenePath, output, callback) {
     }
   });
 };
-
