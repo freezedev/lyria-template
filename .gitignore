@@ -52,5 +52,6 @@ builds/**
 # Generated files #
 ###################
 src/generated/**
-css/*.css
-js/*.js
+css/mygame.css
+js/mygame.js
+index.html
