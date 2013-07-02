@@ -1,4 +1,4 @@
-define('mygame', ['lyria/game'], function(Game) {
+define('mygame', ['lyria/game', 'mygame/scenelist', 'mygame/assetlist'], function(Game) {
   'use strict';
   
 	var myGame = new Game();
