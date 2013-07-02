@@ -14,5 +14,9 @@
     "grunt-contrib-concat": "*",
     "grunt-contrib-less": "*",
     "grunt-contrib-watch": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freezedev/lyria-template.git"
   }
 }
