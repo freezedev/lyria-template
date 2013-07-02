@@ -3,7 +3,6 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "es6-shim": "*",
     "handlebars": "*",
     "uglify-js": "*"
   },
@@ -18,5 +17,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/freezedev/lyria-template.git"
+  },
+  "lyriaProject": {
+    "author": "Johannes Stein",
+    "title": "My Lyria Template",
+    "description": "This is a pretty awesome template, right?"
   }
 }
