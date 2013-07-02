@@ -44,3 +44,13 @@ npm-debug.log
 ###########
 *.sublime-project
 *.sublime-workspace
+
+# Lyria builds #
+################
+builds/**
+
+# Generated files #
+###################
+src/generated/**
+css/*.css
+js/*.js
