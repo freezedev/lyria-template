@@ -24,6 +24,7 @@ module.exports = function(namespace, scenePath, output, callback) {
         var sceneFunc = path.join(scenePath, scene, 'scene.js');
         var sceneLoc = path.join(scenePath, scene, 'localization.json');
         var sceneMarkup = path.join(scenePath, scene, 'scene.html');
+        var scenePartials = path.join(scenePath, scene, 'partials');
         
         if (fs.existsSync(sceneLoc)) {
           try {
@@ -31,6 +32,14 @@ module.exports = function(namespace, scenePath, output, callback) {
           } catch (e) {
             console.log('Error while evaluating ' + sceneLoc + ' :' + e);
           }
+        }
+        
+        if (fs.existsSync(scenePartials)) {
+          var partialsList = fs.readdirSync(scenePartials);
+          
+          partialsList.forEach(function(partial) {
+            
+          });
         }
         
         sceneObject += '\t\tthis.template = this.template || {};\n';
