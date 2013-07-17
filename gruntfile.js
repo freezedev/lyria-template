@@ -45,7 +45,10 @@ module.exports = function(grunt) {
     pkg: pkgFile,
     lyriaConfig: lyriaConfig,
     buildVersion: buildVersion,
-    concat: {
+    concat_sourcemap: {
+      options: {
+        sourcesContent: true
+      },
       dist: {
         src: ['src/**/*.js'],
         dest: 'js/<%= pkg.name %>.js'
@@ -153,7 +156,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-concat-sourcemap');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-stylus');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -219,7 +222,7 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('prebuild', 'Task before building the project', ['prepare', 'concat', 'stylus']);
+  grunt.registerTask('prebuild', 'Task before building the project', ['prepare', 'concat_sourcemap', 'stylus']);
 
   grunt.registerTask('development', 'Development build', ['prebuild', 'template:development']);
   grunt.registerTask('production', 'Production build', ['prebuild', 'uglify', 'copy', 'template:production']);
