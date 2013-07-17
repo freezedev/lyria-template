@@ -47,7 +47,8 @@ module.exports = function(grunt) {
     buildVersion: buildVersion,
     concat_sourcemap: {
       options: {
-        sourcesContent: true
+        sourcesContent: true,
+        sourceRoot: '/'
       },
       dist: {
         src: ['src/**/*.js'],
