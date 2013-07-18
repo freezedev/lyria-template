@@ -12,6 +12,7 @@
     "grunt-concat-sourcemap": "*",
     "grunt-contrib-uglify": "*",
     "grunt-contrib-stylus": "*",
+    "grunt-contrib-csslint": "*",
     "grunt-contrib-watch": "*",
     "grunt-contrib-copy": "*",
     "grunt-contrib-compress": "*",
