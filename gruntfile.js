@@ -133,11 +133,18 @@ module.exports = function(grunt) {
         options: {
           paths: ['stylus'],
           urlfunc: 'embedurl',
-          import: ['nib']
+          import: ['nib'],
+          compress: false,
+          linenos: true
         },
         files: {
           'css/<%= pkg.name %>.css': 'stylus/**/*.styl'
         }
+      }
+    },
+    csslint: {
+      lint: {
+        src: ['css/mygame.css']
       }
     },
     watch: {
@@ -152,11 +159,16 @@ module.exports = function(grunt) {
       template: {
         files: 'template.html',
         tasks: ['template:development']
+      },
+      concat: {
+        files: 'src/**/*.js',
+        tasks: ['concat_sourcemap']
       }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-csslint');
   grunt.loadNpmTasks('grunt-concat-sourcemap');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-stylus');
@@ -224,6 +236,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('prebuild', 'Task before building the project', ['prepare', 'concat_sourcemap', 'stylus']);
+  grunt.registerTask('lint', 'Lints JavaScript and CSS files', ['csslint']);
 
   grunt.registerTask('development', 'Development build', ['prebuild', 'template:development']);
   grunt.registerTask('production', 'Production build', ['prebuild', 'uglify', 'copy', 'template:production']);
