@@ -5,7 +5,7 @@ define('mygame', ['lyria/game', 'mygame/scenelist', 'mygame/assetlist'], functio
 	var myGame = new Game();
 	
 	// Set generated scene files
-	myGame.director.precompiledScenes = sceneList;
+	myGame.director.scenes = sceneList;
 	
 	// If preloader is complete, everything in this function happens
 	myGame.preloader.on('complete', function() {
