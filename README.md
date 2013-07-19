@@ -14,7 +14,7 @@ Developer dependencies
 ----------------------
 * Grunt
 * Handlebars
-* LESS (Lyria bundles uses LESS, but any other CSS preprocessor can be used as well)
+* LESS (Lyria bundles LESS, but any other CSS preprocessor can be used as well)
 
 Getting started
 ---------------
