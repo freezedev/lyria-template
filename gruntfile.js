@@ -89,6 +89,7 @@ module.exports = function(grunt) {
         dest: 'index.html',
         engine: 'handlebars',
         variables: {
+          livereload: true,
           scripts: templateScripts,
           styles: templateStyles,
           mainModule: pkgFile.name,
@@ -102,6 +103,7 @@ module.exports = function(grunt) {
         dest: '<%= buildFolder %>index.html',
         engine: 'handlebars',
         variables: {
+          livereload: false,
           scripts: templateScripts,
           styles: templateStyles,
           mainModule: pkgFile.name,
@@ -148,6 +150,10 @@ module.exports = function(grunt) {
       }
     },
     watch: {
+      options: {
+        // Start a live reload server on the default port 35729
+        livereload: true,
+      },
       stylus: {
         files: 'stylus/**/*.styl',
         tasks: ['stylus']
