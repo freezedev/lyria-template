@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "handlebars": "*",
-    "uglify-js": "*"
+    "uglify-js": "*",
+    "esprima": "*"
   },
   "devDependencies": {
     "grunt": "0.4.x",
