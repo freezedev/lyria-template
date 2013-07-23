@@ -1,6 +1,6 @@
 define("mygame/scenelist", ["lyria/scene", "lyria/template/engine"], function(Scene, TemplateEngine) {
 	var sceneList = {};
-	sceneList["scene1"] = new Scene("scene1", function(scene, Lyria) {
+	sceneList["scene1"] = new Scene("scene1", [], function() {
 		this.localization = {
 	"en": {
 		"title": "This is "
@@ -97,8 +97,8 @@ function program6(depth0,data) {
 
 })(this);
 ;
-		if (typeof sceneFunc === "function") { sceneFunc = sceneFunc.apply(scene, [scene, Lyria]); }		return sceneFunc;	});
-	sceneList["scene2"] = new Scene("scene2", function(scene, Lyria) {
+		if (typeof sceneFunc === "function") { sceneFunc = sceneFunc.apply(this, arguments); }		return sceneFunc;	});
+	sceneList["scene2"] = new Scene("scene2", [], function() {
 		this.localization = {
 	"en": {},
 	"de": {}
@@ -177,6 +177,6 @@ function program6(depth0,data) {
 
 })(this);
 ;
-		if (typeof sceneFunc === "function") { sceneFunc = sceneFunc.apply(scene, [scene, Lyria]); }		return sceneFunc;	});
+		if (typeof sceneFunc === "function") { sceneFunc = sceneFunc.apply(this, arguments); }		return sceneFunc;	});
 	return sceneList;
 });
