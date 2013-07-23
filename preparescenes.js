@@ -39,7 +39,6 @@ module.exports = function(namespace, scenePath, output, callback) {
           parsedSceneFunc = esprima.parse(sceneFuncContent, {comment: true});
           
           var commentArray = parsedSceneFunc.comments;
-          console.log(commentArray);
           
           if (commentArray != null && Array.isArray(commentArray) && commentArray.length > 0) {
             
@@ -51,9 +50,7 @@ module.exports = function(namespace, scenePath, output, callback) {
                 }
                 
                 var value = comment.value;
-                console.log(value);
                 
-                console.log(comment);
                 if (value.indexOf(':') > 0) {
                   var splitted = value.split(':');
             
@@ -63,7 +60,6 @@ module.exports = function(namespace, scenePath, output, callback) {
                   switch(name) {
                     case 'depends':
                       sceneDeps = data;
-                      console.log(sceneDeps);
                       break;
                       
                     case 'options':
