@@ -5,7 +5,8 @@
   "dependencies": {
     "handlebars": "*",
     "uglify-js": "*",
-    "esprima": "*"
+    "esprima": "*",
+    "source-map": "*"
   },
   "devDependencies": {
     "grunt": "0.4.x",
