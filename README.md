@@ -1,6 +1,9 @@
 Lyria Project Template
 ======================
 
+[![Dependency Status](https://david-dm.org/freezedev/lyria-template.png)](https://david-dm.org/freezedev/lyria-template)
+[![devDependency Status](https://david-dm.org/freezedev/lyria-template/dev-status.png)](https://david-dm.org/freezedev/lyria-template#info=devDependencies)
+
 Dependencies
 ------------
 
@@ -10,11 +13,17 @@ Dependencies
 * Detectr
 * checkt
 
+Features
+--------
+
+* Preparing assets (scenes and prefabs)
+* Source map support for assets and JavaScript files
+
 Developer dependencies
 ----------------------
 * Grunt
 * Handlebars
-* LESS (Lyria bundles LESS, but any other CSS preprocessor can be used as well)
+* Stylus (Lyria bundles Stylus, but any other CSS preprocessor can be used as well)
 
 Getting started
 ---------------
