@@ -6,7 +6,8 @@
     "handlebars": "*",
     "uglify-js": "*",
     "esprima": "*",
-    "source-map": "*"
+    "source-map": "*",
+    "bower": "~1.1.0"
   },
   "devDependencies": {
     "grunt": "0.4.x",
@@ -17,8 +18,11 @@
     "grunt-contrib-csslint": "*",
     "grunt-contrib-watch": "*",
     "grunt-contrib-copy": "*",
+    "grunt-contrib-clean": "*",
     "grunt-contrib-compress": "*",
-    "grunt-templater": "*"
+    "grunt-templater": "*",
+    "grunt-bower-commands": "*",
+    "matchdep": "*"
   },
   "repository": {
     "type": "git",
