@@ -45,6 +45,10 @@ npm-debug.log
 *.sublime-project
 *.sublime-workspace
 
+# Bower #
+#########
+bower_components
+
 # Lyria builds #
 ################
 builds/**
