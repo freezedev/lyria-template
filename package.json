@@ -32,7 +32,7 @@
   "lyriaProject": {
     "author": "Johannes Stein",
     "title": "My Lyria Template",
-    "description": "This is a pretty awesome template, right?"
+    "description": "This is a pretty awesome template, right?",
     "lib": {
       "managed": "bower",
       "unmanaged": "./lib"
