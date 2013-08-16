@@ -2,6 +2,8 @@ module.exports = function(grunt) {
 
   var path = require('path');
   var fs = require('fs');
+  var bower = require('bower');
+  require('es6-shim');
 
   var pkgFile = require('./package.json');
   var lyriaConfig = pkgFile.lyriaProject || {};
@@ -11,29 +13,33 @@ module.exports = function(grunt) {
   var buildId = pkgFile.name + '-v' + buildVersion;
   var buildFolder = path.join(buildPrefix, buildId) + path.sep;
 
-  var libFiles = fs.readdirSync('./lib');
+  //var libFiles = fs.readdirSync('./lib');
   var styleFiles = fs.readdirSync('./css');
 
-  var libFilesPriorities = ['almond.js', 'handlebars.runtime.js', 'fastclick.js'];
+  var libFilesPriorities = ['almond', 'handlebars', 'fastclick'];
 
-  var templateScripts = [];
+  var templateScripts = {
+    development: [],
+    production: []
+  };
   var templateStyles = [];
 
   var uglifyLibObject = {};
 
-  for (var i = 0, j = libFiles.length; i < j; i++) {
-    (function(iterator) {
-      uglifyLibObject[path.join(buildFolder, 'lib', iterator)] = path.join('./lib', iterator);
-      if (libFilesPriorities.indexOf(iterator) >= 0) {
-        templateScripts.unshift('lib/' + iterator);
-      } else {
-        templateScripts.push('lib/' + iterator);
-      }
-    })(libFiles[i]);
-  }
+  /*for (var i = 0, j = libFiles.length; i < j; i++) {
+   (function(iterator) {
+   uglifyLibObject[path.join(buildFolder, 'lib', iterator)] =
+   path.join('./lib', iterator);
+   if (libFilesPriorities.indexOf(iterator) >= 0) {
+   templateScripts.unshift('lib/' + iterator);
+   } else {
+   templateScripts.push('lib/' + iterator);
+   }
+   })(libFiles[i]);
+   }*/
 
   uglifyLibObject[buildFolder + '/js/<%= pkg.name %>.js'] = '<%= concat.dist.dest %>';
-  templateScripts.push('js/<%= pkg.name %>.js');
+  //templateScripts.push('js/<%= pkg.name %>.js');
 
   for (var k = 0, l = styleFiles.length; k < l; k++) {
     (function(iterator) {
@@ -90,7 +96,7 @@ module.exports = function(grunt) {
         engine: 'handlebars',
         variables: {
           livereload: true,
-          scripts: templateScripts,
+          scripts: templateScripts.development,
           styles: templateStyles,
           mainModule: pkgFile.name,
           title: '<%= lyriaConfig.title %> (Development build <%= buildVersion %>)',
@@ -104,7 +110,7 @@ module.exports = function(grunt) {
         engine: 'handlebars',
         variables: {
           livereload: false,
-          scripts: templateScripts,
+          scripts: templateScripts.production,
           styles: templateStyles,
           mainModule: pkgFile.name,
           title: lyriaConfig.title,
@@ -173,15 +179,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-csslint');
-  grunt.loadNpmTasks('grunt-concat-sourcemap');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-stylus');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-compress');
-  grunt.loadNpmTasks('grunt-templater');
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   var prepareScenes = require('./preparescenes');
 
@@ -241,10 +239,63 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('prebuild', 'Task before building the project', ['prepare', 'concat_sourcemap', 'stylus']);
+  grunt.registerTask('bower', 'Prepares scripts using bower components', function() {
+    var done = this.async();
+
+    bower.commands.list({
+      paths: true
+    }).on('end', function(results) {
+      for (var key in results) {
+        var val = results[key];
+
+        if (val.indexOf(',') >= 0) {
+          val = val.split(',');
+        }
+
+        var value = '';
+        if (Array.isArray(val)) {
+          if (key === 'handlebars') {
+            value = val[1];
+          }
+
+          for (var i = 0, j = val.length; i < j; i++) {
+            if ((path.extname(val[i]) === '.js') && !val[i].endsWith('.min.js')) {
+              value = val[i];
+              break;
+            }
+          }
+        } else {
+          value = val;
+        }
+        var value = path.relative(process.cwd(), value);
+
+        if (!value.endsWith('.css')) {
+
+          if (!value.endsWith('.js')) {
+            value += path.sep + key + '.js';
+          }
+
+          if (libFilesPriorities.indexOf(key) >= 0) {
+            templateScripts.development.unshift(value);
+          } else {
+            templateScripts.development.push(value);
+          }
+
+        }
+
+      }
+
+      templateScripts.development.push('js/<%= pkg.name %>.js');
+
+      grunt.task.run('template:development');
+      done();
+    });
+  });
+
+  grunt.registerTask('prebuild', 'Task before building the project', ['prepare', 'concat_sourcemap', 'bower', 'stylus']);
   grunt.registerTask('lint', 'Lints JavaScript and CSS files', ['csslint']);
 
-  grunt.registerTask('development', 'Development build', ['prebuild', 'template:development']);
+  grunt.registerTask('development', 'Development build', ['prebuild']);
   grunt.registerTask('production', 'Production build', ['prebuild', 'uglify', 'copy', 'template:production']);
   grunt.registerTask('deploy', 'Deploys project', ['production', 'compress:deploy']);
 
