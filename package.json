@@ -23,7 +23,8 @@
     "grunt-contrib-compress": "*",
     "grunt-templater": "*",
     "grunt-bower-commands": "*",
-    "matchdep": "*"
+    "matchdep": "*",
+    "mime": "*"
   },
   "repository": {
     "type": "git",
