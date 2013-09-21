@@ -1,7 +1,6 @@
 var fs = require('fs');
 var path = require('path');
 var handlebars = require('handlebars');
-var UglifyJS = require('uglify-js');
 var sourcemap = require('source-map');
 var SourceNode = sourcemap.SourceNode;
 var SourceMapGenerator = sourcemap.SourceMapGenerator;
@@ -20,13 +19,20 @@ module.exports = function(namespace, scenePath, output, callback) {
   sceneObject += '\tvar sceneList = {};\n';
 
   var sceneList = fs.readdirSync(scenePath);
-
-  var sourceNode = new SourceNode();
+  
+  var sceneLines = 2;
+  
   // source map file of input
   var sourceMaps = [];
 
-  sceneList.forEach(function(scene) {
+  var sourceNode = new SourceNode();
 
+  sceneList.forEach(function(scene) {
+    // skip scenes with leading dot
+    if (scene.indexOf('.') === 0) {
+      return;
+    }
+    
     if (path.extname(scene) === '') {
       if (fs.existsSync(path.join(scenePath, scene))) {
 
@@ -35,30 +41,6 @@ module.exports = function(namespace, scenePath, output, callback) {
         var sceneLoc = path.join(scenePath, scene, 'localization.json');
         var sceneMarkup = path.join(scenePath, scene, 'scene.html');
         var scenePartials = path.join(scenePath, scene, 'partials');
-
-        var childNodeChunks = sceneFuncContent.split('\n');
-        for ( j = 0, m = childNodeChunks.length - 1; j < m; j++) {
-          childNodeChunks[j] += '\n';
-        }
-
-        childNodeChunks.map(function(line) {
-          if (/\/\/@\s+sourceMappingURL=(.+)/.test(line)) {
-            var sourceMapPath = filename.replace(/[^\/]*$/, RegExp.$1);
-            var sourceMap = JSON.parse(grunt.file.read(sourceMapPath));
-            sourceMap.file = filename;
-            var sourceRoot = path.resolve(path.dirname(filename), sourceMap.sourceRoot);
-            sourceMap.sources = sourceMap.sources.map(function(source) {
-              return path.relative(process.cwd(), path.join(sourceRoot, source));
-            });
-            delete sourceMap.sourceRoot;
-            sourceMaps.push(sourceMap);
-            return line.replace(/@\s+sourceMappingURL=[\w\.]+/, '');
-          }
-          return line;
-        }).forEach(function(line, j) {
-          sourceNode.add(new SourceNode(j + 1, 0, sceneFunc, line));
-        });
-        sourceNode.setSourceContent(sceneFunc, sceneFuncContent);
 
         var parsedSceneFunc = {};
 
@@ -104,19 +86,26 @@ module.exports = function(namespace, scenePath, output, callback) {
               })(commentArray[i]);
             }
           }
+        } else {
+           console.error('missing scene.js file in ' + scenePath + '/' +scene);
+           sceneFuncContent = '""';
         }
 
         sceneObject[scene] = {};
 
         sceneObject += '\tsceneList["' + scene + '"] = new Scene("' + scene + '", ' + sceneDeps + ', function() {\n';
 
+        var sceneLocLines = 0;
         if (fs.existsSync(sceneLoc)) {
           try {
-            sceneObject += '\t\tthis.localization = ' + fs.readFileSync(sceneLoc) + ';\n';
+            var sceneLocContent = fs.readFileSync(sceneLoc, 'utf8');
+            sceneObject += '\t\tthis.localization = ' + sceneLocContent + ';\n';
+            sceneLocLines = sceneLocContent.split('\n').length + 1;
           } catch (e) {
             console.log('Error while evaluating ' + sceneLoc + ' :' + e);
           }
         }
+        sceneLines += sceneLocLines;
 
         if (fs.existsSync(scenePartials)) {
           var partialsList = fs.readdirSync(scenePartials);
@@ -126,13 +115,47 @@ module.exports = function(namespace, scenePath, output, callback) {
           });
         }
 
-        sceneObject += '\t\tthis.template = this.template || {};\n';
+        sceneObject += '\t\tthis.template = this.template || {};\n\t\tvar self = this\n;';
+        sceneObject += '\t\tthis.template.helpers["translate"] = this.t;';
 
+        var precompiledMarkup = 'void 0';
+        var precompiledMarkupLines = 0;
         if (fs.existsSync(sceneMarkup)) {
-          sceneObject += '\t\tthis.template.source = TemplateEngine.compile(' + handlebars.precompile(fs.readFileSync(sceneMarkup, 'utf8') + '\n' + defaultSceneTemplate) + ');\n';
+          precompiledMarkup = handlebars.precompile(fs.readFileSync(sceneMarkup, 'utf8') + '\n' + defaultSceneTemplate);
         } else {
-          sceneObject += '\t\tthis.template.source = TemplateEngine.compile(' + handlebars.precompile(defaultSceneTemplate) + ');\n';
+          precompiledMarkup = handlebars.precompile(defaultSceneTemplate);
         }
+        precompiledMarkupLines = precompiledMarkup.split('\n').length;
+        sceneLines += precompiledMarkupLines;
+        
+        sceneObject += '\t\tthis.template.source = TemplateEngine.compile(' + precompiledMarkup + ', {partials: self.template.partials, helpers: self.template.helpers});\n';
+
+        var childNodeChunks = sceneFuncContent.split('\n');
+        for ( j = 0, m = childNodeChunks.length - 1; j < m; j++) {
+          childNodeChunks[j] += '\n';
+        }
+
+        childNodeChunks.map(function(line) {
+          if (/\/\/@\s+sourceMappingURL=(.+)/.test(line)) {
+            var sourceMapPath = filename.replace(/[^\/]*$/, RegExp.$1);
+            var sourceMap = grunt.file.readJSON(sourceMapPath);
+            sourceMap.file = filename;
+            var sourceRoot = path.resolve(path.dirname(filename), sourceMap.sourceRoot);
+            sourceMap.sources = sourceMap.sources.map(function(source) {
+              return path.relative(process.cwd(), path.join(sourceRoot, source));
+            });
+            delete sourceMap.sourceRoot;
+            sourceMaps.push(sourceMap);
+            return line.replace(/@\s+sourceMappingURL=[\w\.]+/, '');
+          }
+          return line;
+        }).forEach(function(line, j) {
+          //console.log('line ' + (j + 1 + sceneLines) + ': ' + line);
+          //sourceNode.add(new SourceNode(j + 2 + sceneLines, 0, scene + '/' + 'scene.js', line));
+          sourceNode.add(new SourceNode(j + 1, 0, scene + '/' + 'scene.js', line));
+        });
+        sourceNode.setSourceContent(scene + '/' + 'scene.js', sceneFuncContent);
+        
 
         if (sceneFuncContent != null) {
           sceneObject += '\t\tvar sceneFunc = ' + sceneFuncContent + ';\n';
@@ -159,7 +182,7 @@ module.exports = function(namespace, scenePath, output, callback) {
     
     var code_map = sourceNode.toStringWithSourceMap({
       file: output,
-      sourceRoot: '/'
+      sourceRoot: '/assets/scenes'
     });
 
     // Write the source map file.
