@@ -13,10 +13,10 @@ module.exports = function(grunt) {
   var buildId = pkgFile.name + '-v' + buildVersion;
   var buildFolder = path.join(buildPrefix, buildId) + path.sep;
 
-  //var libFiles = fs.readdirSync('./lib');
-  var styleFiles = fs.readdirSync('./css');
+  var libFiles = (fs.existsSync('./lib')) ? fs.readdirSync('./lib') : [];
+  var styleFiles = (fs.existsSync('./css')) ? fs.readdirSync('./css') : [];
 
-  var libFilesPriorities = ['almond', 'handlebars', 'fastclick'];
+  var libFilesPriorities = ['almond', 'handlebars', 'fastclick', 'udefine'];
 
   var templateScripts = {
     development: [],
@@ -26,17 +26,16 @@ module.exports = function(grunt) {
 
   var uglifyLibObject = {};
 
-  /*for (var i = 0, j = libFiles.length; i < j; i++) {
-   (function(iterator) {
-   uglifyLibObject[path.join(buildFolder, 'lib', iterator)] =
-   path.join('./lib', iterator);
-   if (libFilesPriorities.indexOf(iterator) >= 0) {
-   templateScripts.unshift('lib/' + iterator);
-   } else {
-   templateScripts.push('lib/' + iterator);
-   }
-   })(libFiles[i]);
-   }*/
+  for (var i = 0, j = libFiles.length; i < j; i++) {
+    (function(iterator) {
+      uglifyLibObject[path.join(buildFolder, 'lib', iterator)] = path.join('./lib', iterator);
+      if (libFilesPriorities.indexOf(iterator) >= 0) {
+        templateScripts.unshift('lib/' + iterator);
+      } else {
+        templateScripts.push('lib/' + iterator);
+      }
+    })(libFiles[i]);
+  }
 
   uglifyLibObject[buildFolder + '/js/<%= pkg.name %>.js'] = '<%= concat.dist.dest %>';
   //templateScripts.push('js/<%= pkg.name %>.js');
@@ -197,7 +196,7 @@ module.exports = function(grunt) {
         subdir = '';
       }
 
-      if ((filename.toLowerCase().indexOf('readme') >= 0) || (subdir.indexOf('scenes') >= 0) || (subdir.indexOf('prefabs') >= 0) || (subdir.indexOf('gameobjects') >= 0)) {
+      if ((filename.toLowerCase().indexOf('readme') >= 0) || (subdir.indexOf('scenes') >= 0) || (subdir.indexOf('prefabs') >= 0) || (subdir.indexOf('gameobjects') >= 0) || (filename.indexOf('.') === 0)) {
         return;
       }
 
