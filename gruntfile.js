@@ -4,6 +4,7 @@ module.exports = function(grunt) {
   var fs = require('fs');
   var bower = require('bower');
   require('es6-shim');
+  var mime = require('mime');
 
   var pkgFile = require('./package.json');
   var lyriaConfig = pkgFile.lyriaProject || {};
@@ -182,6 +183,16 @@ module.exports = function(grunt) {
 
   var prepareScenes = require('./preparescenes');
 
+  grunt.registerMultiTask('assetArray', 'Updated asset array', function() {
+    var files = this.filesSrc;
+    
+    for (var i = 0, j = files.length; i < j; i++) {
+      (function(file) {
+        
+      })(files[i]);
+    }
+  });
+
   grunt.registerTask('prepare', 'Updates asset array and prepares scenes', function() {
     var done = this.async();
     var dir = './';
@@ -211,9 +222,10 @@ module.exports = function(grunt) {
       assetObject[dirname].files = assetObject[dirname].files || [];
       assetObject[dirname].files.push({
         name: abspath,
+        type: mime.lookup(abspath),
         size: stat.size
       });
-      if (assetObject[dirname].size) {
+      if (assetObject[dirname].totalSize) {
         assetObject[dirname].totalSize += stat.size;
       } else {
         assetObject[dirname].totalSize = stat.size;
