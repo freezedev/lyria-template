@@ -155,6 +155,14 @@ module.exports = function(grunt) {
         src: ['css/mygame.css']
       }
     },
+    jshint: {
+      assets: {
+        src: ['assets/**/*.js']
+      },
+      source: {
+        src: ['src/**/*.js', '!src/generated/**/*.js']
+      }
+    },
     watch: {
       options: {
         // Start a live reload server on the default port 35729
@@ -304,7 +312,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('prebuild', 'Task before building the project', ['prepare', 'concat_sourcemap', 'bower', 'stylus']);
-  grunt.registerTask('lint', 'Lints JavaScript and CSS files', ['csslint']);
+  grunt.registerTask('test', 'Lints JavaScript and CSS files', ['jshint']);
 
   grunt.registerTask('development', 'Development build', ['prebuild']);
   grunt.registerTask('production', 'Production build', ['prebuild', 'uglify', 'copy', 'template:production']);
