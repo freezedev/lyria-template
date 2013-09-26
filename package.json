@@ -26,6 +26,9 @@
     "matchdep": "*",
     "mime": "*"
   },
+  "scripts": {
+    "test": "grunt test"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/freezedev/lyria-template.git"
