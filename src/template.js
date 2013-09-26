@@ -4,6 +4,8 @@ define('mygame', ['lyria/game', 'mygame/scenelist', 'mygame/assetlist'], functio
   // Create a new game object
 	var myGame = new Game();
 	
+	console.log(myGame);
+	
 	// Set generated scene files
 	myGame.director.scenes = sceneList;
 	

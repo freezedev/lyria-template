@@ -98,6 +98,8 @@ function program6(depth0,data) {
     })
   });
   
+  console.log(scene);
+  console.log(scene.game);
   scene.log('yeeha!');
 
 })(this, arguments[1]);
