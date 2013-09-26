@@ -1,10 +1,10 @@
 module.exports = function(grunt) {
 
-  var path = require('path');
   var fs = require('fs');
   var bower = require('bower');
   require('es6-shim');
   var mime = require('mime');
+  var path = require('path');
 
   var pkgFile = require('./package.json');
   var lyriaConfig = pkgFile.lyriaProject || {};
@@ -12,7 +12,7 @@ module.exports = function(grunt) {
   var buildPrefix = 'builds';
   var buildVersion = pkgFile.version + '-' + grunt.template.today("yymmdd-HHMMss");
   var buildId = pkgFile.name + '-v' + buildVersion;
-  var buildFolder = path.join(buildPrefix, buildId) + path.sep;
+  var buildFolder = [buildPrefix, buildId].join('/');
 
   var libFiles = (fs.existsSync('./lib')) ? fs.readdirSync('./lib') : [];
   var styleFiles = (fs.existsSync('./css')) ? fs.readdirSync('./css') : [];
@@ -38,7 +38,7 @@ module.exports = function(grunt) {
     })(libFiles[i]);
   }
 
-  uglifyLibObject[buildFolder + '/js/<%= pkg.name %>.js'] = '<%= concat.dist.dest %>';
+  uglifyLibObject[buildFolder + '/js/<%= pkg.name %>.js'] = '<%= concat_sourcemap.dist.dest %>';
   //templateScripts.push('js/<%= pkg.name %>.js');
 
   for (var k = 0, l = styleFiles.length; k < l; k++) {
@@ -51,6 +51,7 @@ module.exports = function(grunt) {
     pkg: pkgFile,
     lyriaConfig: lyriaConfig,
     buildVersion: buildVersion,
+    buildFolder: buildFolder,
     concat_sourcemap: {
       options: {
         sourcesContent: true,
@@ -66,9 +67,9 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           src: ['assets/**'],
-          dest: buildFolder,
+          dest: '<%= buildFolder %>/',
           filter: function(filepath) {
-            if ((filepath.indexOf(path.sep + 'scenes') >= 0) || (filepath.indexOf(path.sep + 'prefabs') >= 0)) {
+            if ((filepath.indexOf('/scenes') >= 0) || (filepath.indexOf('/prefabs') >= 0)) {
               return false;
             } else {
               return true;
@@ -77,15 +78,15 @@ module.exports = function(grunt) {
         }, {
           expand: true,
           src: ['css/**'],
-          dest: buildFolder
+          dest: '<%= buildFolder %>/'
         }, {
           expand: true,
           src: ['favicon.ico'],
-          dest: buildFolder
+          dest: '<%= buildFolder %>/'
         }, {
           expand: true,
           src: ['*.png'],
-          dest: buildFolder
+          dest: '<%= buildFolder %>/'
         }]
       }
     },
@@ -106,7 +107,7 @@ module.exports = function(grunt) {
       },
       production: {
         src: 'template.html',
-        dest: '<%= buildFolder %>index.html',
+        dest: '<%= buildFolder %>/index.html',
         engine: 'handlebars',
         variables: {
           livereload: false,
@@ -127,26 +128,36 @@ module.exports = function(grunt) {
     compress: {
       deploy: {
         options: {
-          archive: path.join(buildPrefix, buildId) + '.zip'
+          archive: '<%= buildFolder %>.zip'
         },
         files: [{
-          cwd: buildFolder,
+          cwd: '<%= buildFolder %>/',
           src: ['**'],
           dest: '<%= pkg.name %>/'
         }]
       }
     },
     stylus: {
-      compile: {
+      options: {
+        paths: ['stylus'],
+        urlfunc: 'embedurl',
+        import: ['nib'],
+      },
+      development: {
         options: {
-          paths: ['stylus'],
-          urlfunc: 'embedurl',
-          import: ['nib'],
           compress: false,
           linenos: true
         },
         files: {
           'css/<%= pkg.name %>.css': 'stylus/**/*.styl'
+        }
+      },
+      production: {
+        options: {
+          compress: true
+        },
+        files: {
+          '<%= buildFolder %>/css/<%= pkg.name %>.css': 'stylus/**/*.styl'
         }
       }
     },
@@ -311,11 +322,11 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('prebuild', 'Task before building the project', ['prepare', 'concat_sourcemap', 'bower', 'stylus']);
+  grunt.registerTask('prebuild', 'Task before building the project', ['prepare', 'concat_sourcemap', 'bower']);
   grunt.registerTask('test', 'Lints JavaScript and CSS files', ['jshint']);
 
-  grunt.registerTask('development', 'Development build', ['prebuild']);
-  grunt.registerTask('production', 'Production build', ['prebuild', 'uglify', 'copy', 'template:production']);
+  grunt.registerTask('development', 'Development build', ['prebuild', 'stylus:development']);
+  grunt.registerTask('production', 'Production build', ['prebuild', 'uglify', 'copy', 'stylus:production', 'template:production']);
   grunt.registerTask('deploy', 'Deploys project', ['production', 'compress:deploy']);
 
   grunt.registerTask('build', 'Builds the default project', ['development']);
