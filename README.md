@@ -1,6 +1,6 @@
 Lyria Project Template
 ======================
-
+[![Build Status](https://travis-ci.org/freezedev/lyria-template.png?branch=master)](https://travis-ci.org/freezedev/lyria-template)
 [![Dependency Status](https://david-dm.org/freezedev/lyria-template.png)](https://david-dm.org/freezedev/lyria-template)
 [![devDependency Status](https://david-dm.org/freezedev/lyria-template/dev-status.png)](https://david-dm.org/freezedev/lyria-template#info=devDependencies)
 
