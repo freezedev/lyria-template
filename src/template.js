@@ -11,7 +11,7 @@ define('mygame', ['lyria/game', 'mygame/scenelist', 'mygame/assetlist'], functio
 	
 	// If preloader is complete, everything in this function happens
 	myGame.preloader.on('complete', function() {
-	  // Add "scene1" to director
+    // Add "scene1" to director
     myGame.director.add('scene1');
     // Add "scene2" to director
     myGame.director.add('scene2');
