@@ -26,4 +26,5 @@ define('mygame', ['lyria/game', 'mygame/scenelist', 'mygame/assetlist'], functio
   // Spin up the preloader
   myGame.preloader.start();
 	
+	return myGame;
 });
