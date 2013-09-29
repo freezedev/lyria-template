@@ -189,7 +189,7 @@ module.exports = function(grunt) {
       },
       template: {
         files: 'template.html',
-        tasks: ['template:development']
+        tasks: ['bower']
       },
       concat: {
         files: 'src/**/*.js',
@@ -304,6 +304,8 @@ module.exports = function(grunt) {
           if (!value.endsWith('.js')) {
             value += path.sep + key + '.js';
           }
+          
+          value = value.split('\\').join('/');
 
           if (libFilesPriorities.indexOf(key) >= 0) {
             templateScripts.development.unshift(value);
@@ -331,5 +333,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', 'Builds the default project', ['development']);
   grunt.registerTask('default', 'Default task', ['development']);
+  grunt.registerTask('observe', 'Default task', ['development', 'watch']);
 
 };
