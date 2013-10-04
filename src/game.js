@@ -1,13 +1,15 @@
-define('mygame', ['lyria/game', 'mygame/scenelist', 'mygame/assetlist'], function(Game, sceneList, assetList) {
+define('mygame', ['lyria/game', 'lyria/localization', 'mygame/scenelist', 'mygame/assetlist', 'mygame/i18n'], function(Game, Localization, sceneList, assetList, i18n) {
   'use strict';
   
   // Create a new game object
 	var myGame = new Game();
 	
+	myGame.localization = new Localization(i18n);
+	
 	console.log(myGame);
 	
 	// Set generated scene files
-	myGame.director.scenes = sceneList;
+	myGame.director.scenes = sceneList();
 	
 	// If preloader is complete, everything in this function happens
 	myGame.preloader.on('complete', function() {
