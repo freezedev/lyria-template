@@ -1,8 +1,13 @@
 (function(scene, Lyria) {
 
-  scene.events = {
+  scene.on('test', function() {
+    console.log('test');
+  })
+
+  scene.DOMEvents = {
     '#btnSwitch': {
       'click': function(event) {
+        scene.trigger('test');
         scene.parent.show('scene2');
       }
     }
