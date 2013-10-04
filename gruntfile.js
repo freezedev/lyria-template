@@ -195,10 +195,31 @@ module.exports = function(grunt) {
         files: 'src/**/*.js',
         tasks: ['concat_sourcemap']
       }
+    },
+    lyria_i18n: {
+      options: {
+        namespace: '<%= pkg.name %>'
+      },
+      all: {
+        src: ['assets/i18n/**/*.json']
+      }
+    },
+    lyria_assetList: {
+      options: {
+        namespace: '<%= pkg.name %>'
+      },
+      all: {
+        files: [{
+          expand: true,
+          src: ['assets/**/*', '!**/README.md'],
+          filter: 'isFile'
+        }]
+      }
     }
   });
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+  grunt.loadTasks('./tasks');
 
   var prepareScenes = require('./preparescenes');
 
@@ -217,49 +238,6 @@ module.exports = function(grunt) {
     var dir = './';
     var projectName = pkgFile.name;
     var assetObject = {};
-
-    grunt.file.recurse(path.join(dir, 'assets'), function(abspath, rootdir, subdir, filename) {
-      var stat;
-      var dirname;
-
-      if (subdir == null) {
-        subdir = '';
-      }
-
-      if ((filename.toLowerCase().indexOf('readme') >= 0) || (subdir.indexOf('scenes') >= 0) || (subdir.indexOf('prefabs') >= 0) || (subdir.indexOf('gameobjects') >= 0) || (filename.indexOf('.') === 0)) {
-        return;
-      }
-
-      if (!subdir) {
-        dirname = 'root';
-      } else {
-        dirname = subdir;
-      }
-
-      assetObject[dirname] = assetObject[subdir] || {};
-      stat = fs.statSync(abspath);
-      assetObject[dirname].files = assetObject[dirname].files || [];
-      assetObject[dirname].files.push({
-        name: abspath,
-        type: mime.lookup(abspath),
-        size: stat.size
-      });
-      if (assetObject[dirname].totalSize) {
-        assetObject[dirname].totalSize += stat.size;
-      } else {
-        assetObject[dirname].totalSize = stat.size;
-      }
-    });
-
-    var assetSize = 0;
-    var value;
-    for (var key in assetObject) {
-      value = assetObject[key];
-
-      assetSize += value.totalSize;
-    }
-
-    assetObject.totalSize = assetSize;
 
     grunt.file.write(path.join(dir, 'src', 'generated', 'assetlist.js'), 'define("' + projectName + '/assetlist",' + JSON.stringify(assetObject) + ');');
 
@@ -324,7 +302,7 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('prebuild', 'Task before building the project', ['prepare', 'concat_sourcemap', 'bower']);
+  grunt.registerTask('prebuild', 'Task before building the project', ['prepare', 'lyria_assetList', 'lyria_i18n', 'concat_sourcemap', 'bower']);
   grunt.registerTask('test', 'Lints JavaScript and CSS files', ['jshint']);
 
   grunt.registerTask('development', 'Development build', ['prebuild', 'stylus:development']);
