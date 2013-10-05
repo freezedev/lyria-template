@@ -1,8 +1,7 @@
-define("mygame/scenelist", ["lyria/scene", "lyria/template/engine", "lyria/localization"], function(Scene, TemplateEngine, Localization) {
-	return function(param) {
-		if(param && Object.keys(param).length > 0) {			for (var sceneKey in param) { var sceneValue = param[sceneKey]; Scene.requireAlways[sceneKey] = sceneValue; }		}		var sceneList = {};
+define("mygame/scenelist", ["lyria/scene", "lyria/template/engine"], function(Scene, TemplateEngine) {
+	var sceneList = {};
 	sceneList["scene1"] = new Scene("scene1", [], function() {
-		this.localization = new Localization({
+		this.localization = {
 	"en": {
 		"title": "This is {{name}}",
 		"btnSwitchToNextScene": "Switch to next scene"
@@ -12,10 +11,10 @@ define("mygame/scenelist", ["lyria/scene", "lyria/template/engine", "lyria/local
 		"btnSwitchToNextScene": "Zur nächsten Szene wechseln"
 	}
 }
-);
+;
 		this.template = this.template || {};
 		var self = this
-;		this.template.source = TemplateEngine.compile(function (Handlebars,depth0,helpers,partials,data) {
+;		this.template.helpers["translate"] = this.t;		this.template.source = TemplateEngine.compile(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, stack2, options, functionType="function", escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
@@ -82,21 +81,29 @@ function program6(depth0,data) {
   if(stack2 || stack2 === 0) { buffer += stack2; }
   return buffer;
   }, {partials: self.template.partials, helpers: self.template.helpers});
-		(function() { (function(scene, Lyria) {
-
+		var sceneFunc = (function(scene, Lyria) {
 
   scene.on('test', function() {
     console.log('test');
   });
 
-  scene.bindEvent({
+  /*scene.bindEvent({
+   '#btnSwitch': {
+   'click': function(event) {
+   scene.trigger('test');
+   scene.parent.show('scene2');
+   }
+   }
+   });*/
+
+  /*scene.DOMEvents = {
     '#btnSwitch': {
       'click': function(event) {
         scene.trigger('test');
         scene.parent.show('scene2');
       }
     }
-  });
+  };*/
 
   scene.expose({
     test: "Hallo",
@@ -104,27 +111,23 @@ function program6(depth0,data) {
       name: scene.name
     })
   });
-  
+
   console.log(scene);
   console.log(scene.game);
   scene.log('yeeha!');
-  
-  setTimeout(function() {
-    scene.refresh();
-  }, 1);
 
 })(this, arguments[1]);
- }).call(this);
-	});
+;
+		if (typeof sceneFunc === "function") { sceneFunc = sceneFunc.apply(this, arguments); }		return sceneFunc;	});
 	sceneList["scene2"] = new Scene("scene2", [], function() {
-		this.localization = new Localization({
+		this.localization = {
 	"en": {},
 	"de": {}
 }
-);
+;
 		this.template = this.template || {};
 		var self = this
-;		this.template.source = TemplateEngine.compile(function (Handlebars,depth0,helpers,partials,data) {
+;		this.template.helpers["translate"] = this.t;		this.template.source = TemplateEngine.compile(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
@@ -188,15 +191,15 @@ function program6(depth0,data) {
   if(stack1 || stack1 === 0) { buffer += stack1; }
   return buffer;
   }, {partials: self.template.partials, helpers: self.template.helpers});
-		(function() { (function(scene) {
+		var sceneFunc = (function(scene) {
   
   scene.expose({
     test: 'Hallo'
   });
   
 })(this);
- }).call(this);
-	});
-		return sceneList;
-	};});
+;
+		if (typeof sceneFunc === "function") { sceneFunc = sceneFunc.apply(this, arguments); }		return sceneFunc;	});
+	return sceneList;
+});
 //@ sourceMappingURL=scenelist.js.map

@@ -15,8 +15,12 @@ var defaultSceneTemplate = "{{#if gameobject}}\n  {{#each gameobject}}\n    <div
 
 module.exports = function(namespace, scenePath, output, callback) {
 
-  var sceneObject = 'define("' + namespace + '/scenelist", ["lyria/scene", "lyria/template/engine"], function(Scene, TemplateEngine) {\n';
-  sceneObject += '\tvar sceneList = {};\n';
+  var sceneObject = 'define("' + namespace + '/scenelist", ["lyria/scene", "lyria/template/engine", "lyria/localization"], function(Scene, TemplateEngine, Localization) {\n';
+  sceneObject += '\treturn function(param) {\n';
+  sceneObject += '\t\tif(param && Object.keys(param).length > 0) {';
+  sceneObject += '\t\t\tfor (var sceneKey in param) { var sceneValue = param[sceneKey]; Scene.requireAlways[sceneKey] = sceneValue; }';
+  sceneObject += '\t\t}';
+  sceneObject += '\t\tvar sceneList = {};\n';
 
   var sceneList = fs.readdirSync(scenePath);
   
@@ -99,7 +103,7 @@ module.exports = function(namespace, scenePath, output, callback) {
         if (fs.existsSync(sceneLoc)) {
           try {
             var sceneLocContent = fs.readFileSync(sceneLoc, 'utf8');
-            sceneObject += '\t\tthis.localization = ' + sceneLocContent + ';\n';
+            sceneObject += '\t\tthis.localization = new Localization(' + sceneLocContent + ');\n';
             sceneLocLines = sceneLocContent.split('\n').length + 1;
           } catch (e) {
             console.log('Error while evaluating ' + sceneLoc + ' :' + e);
@@ -111,12 +115,11 @@ module.exports = function(namespace, scenePath, output, callback) {
           var partialsList = fs.readdirSync(scenePartials);
 
           partialsList.forEach(function(partial) {
-
+            
           });
         }
 
         sceneObject += '\t\tthis.template = this.template || {};\n\t\tvar self = this\n;';
-        sceneObject += '\t\tthis.template.helpers["translate"] = this.t;';
 
         var precompiledMarkup = 'void 0';
         var precompiledMarkupLines = 0;
@@ -158,9 +161,8 @@ module.exports = function(namespace, scenePath, output, callback) {
         
 
         if (sceneFuncContent != null) {
-          sceneObject += '\t\tvar sceneFunc = ' + sceneFuncContent + ';\n';
-          sceneObject += '\t\tif (typeof sceneFunc === "function") { sceneFunc = sceneFunc.apply(this, arguments); }';
-          sceneObject += '\t\treturn sceneFunc;';
+          // Provide a closure just in case
+          sceneObject += '\t\t(function() { ' + sceneFuncContent + ' }).call(this);\n';
         }
 
         sceneObject += '\t});\n';
@@ -169,7 +171,8 @@ module.exports = function(namespace, scenePath, output, callback) {
 
   });
 
-  sceneObject += '\treturn sceneList;\n';
+  sceneObject += '\t\treturn sceneList;\n';
+  sceneObject += '\t};';
 
   sceneObject += '});\n';
   
