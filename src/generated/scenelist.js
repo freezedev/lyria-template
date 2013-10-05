@@ -68,7 +68,7 @@ function program6(depth0,data) {
   if (stack1 = helpers.title) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</div>\r\n\r\n<span id=\"btnSwitch\">";
+    + "</div>\r\n\r\n<span id=\"btnSwitch\" class=\"clickable\">";
   options = {hash:{},data:data};
   buffer += escapeExpression(((stack1 = helpers.translate || depth0.translate),stack1 ? stack1.call(depth0, "btnSwitchToNextScene", options) : helperMissing.call(depth0, "translate", "btnSwitchToNextScene", options)))
     + "</span>\n";
@@ -82,29 +82,22 @@ function program6(depth0,data) {
   if(stack2 || stack2 === 0) { buffer += stack2; }
   return buffer;
   }, {partials: self.template.partials, helpers: self.template.helpers});
-		(function() { (function(scene, Lyria) {
+		(function() { (function(scene) {
+  
+  var Lyria = scene.modules.Lyria;
 
-  scene.on('test', function() {
-    console.log('test');
+  scene.on('achievement', function() {
+    Lyria.AchievementManager.show('switchScene');
   });
 
-  /*scene.bindEvent({
-   '#btnSwitch': {
-   'click': function(event) {
-   scene.trigger('test');
-   scene.parent.show('scene2');
-   }
-   }
-   });*/
-
-  /*scene.DOMEvents = {
+  scene.bindEvent({
     '#btnSwitch': {
       'click': function(event) {
-        scene.trigger('test');
+        scene.trigger('achievement');
         scene.parent.show('scene2');
       }
     }
-  };*/
+  });
 
   scene.expose({
     test: "Hallo",
@@ -117,7 +110,7 @@ function program6(depth0,data) {
   console.log(scene.game);
   scene.log('yeeha!');
 
-})(this, arguments[1]);
+})(this);
  }).call(this);
 	});
 	sceneList["scene2"] = new Scene("scene2", [], function() {
