@@ -1,26 +1,19 @@
-(function(scene, Lyria) {
+(function(scene) {
+  
+  var Lyria = scene.modules.Lyria;
 
-  scene.on('test', function() {
-    console.log('test');
+  scene.on('achievement', function() {
+    Lyria.AchievementManager.show('switchScene');
   });
 
-  /*scene.bindEvent({
-   '#btnSwitch': {
-   'click': function(event) {
-   scene.trigger('test');
-   scene.parent.show('scene2');
-   }
-   }
-   });*/
-
-  /*scene.DOMEvents = {
+  scene.bindEvent({
     '#btnSwitch': {
       'click': function(event) {
-        scene.trigger('test');
+        scene.trigger('achievement');
         scene.parent.show('scene2');
       }
     }
-  };*/
+  });
 
   scene.expose({
     test: "Hallo",
@@ -33,4 +26,4 @@
   console.log(scene.game);
   scene.log('yeeha!');
 
-})(this, arguments[1]);
+})(this);
