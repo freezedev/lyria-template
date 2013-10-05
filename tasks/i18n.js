@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = function(grunt) {
   grunt.registerMultiTask('lyria_i18n', function() {
     var files = this.filesSrc;
@@ -10,7 +12,10 @@ module.exports = function(grunt) {
     
     for (var i = 0, j = files.length; i < j; i++) {
       (function(file) {
-        content = grunt.util._.merge(content, grunt.file.readJSON(file));
+        var shortName = path.basename(file).split(path.extname(file))[0];
+        
+        content[shortName] = content[shortName] || {};
+        content[shortName] = grunt.file.readJSON(file);
       })(files[i]);
     }
     
