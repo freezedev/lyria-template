@@ -9,7 +9,7 @@ define('mygame',
 	myGame.localization = new LocalizationGroup(i18n);
 	
 	// Set up achievements
-	achievements(myGame.localization.achievements);
+	achievements(myGame.viewport, myGame.localization.achievements);
 	
 	console.log(myGame);
 	
@@ -23,12 +23,8 @@ define('mygame',
     // Add "scene2" to director
     myGame.director.add('scene2');
 
-    console.log('All added');
-
     // Show "scene1"
     myGame.director.show('scene1');
-    
-    console.log('Shown'); 
   });
   
   // Set asset list for preloader
