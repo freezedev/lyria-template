@@ -262,7 +262,7 @@ module.exports = function(grunt) {
         if (!value.endsWith('.css')) {
 
           if (!value.endsWith('.js')) {
-            value += path.sep + key + '.js';
+            value += '/' + key + '.js';
           }
           
           if (libFilesPriorities.indexOf(key) >= 0) {
