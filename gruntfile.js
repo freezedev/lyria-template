@@ -253,29 +253,11 @@ module.exports = function(grunt) {
     bower.commands.list({
       paths: true
     }).on('end', function(results) {
-      for (var key in results) {
-        var val = results[key];
-
-        if (val.indexOf(',') >= 0) {
-          val = val.split(',');
-        }
-
-        var value = '';
-        if (Array.isArray(val)) {
-          if (key === 'handlebars') {
-            value = val[1];
-          }
-
-          for (var i = 0, j = val.length; i < j; i++) {
-            if ((path.extname(val[i]) === '.js') && !val[i].endsWith('.min.js')) {
-              value = val[i];
-              break;
-            }
-          }
-        } else {
-          value = val;
-        }
-        var value = path.relative(process.cwd(), value);
+      var prepareBowerAsset = function(value) {
+        value = path.relative(process.cwd(), value);
+        
+        // All forward slashes, please
+        value = value.split('\\').join('/');
 
         if (!value.endsWith('.css')) {
 
@@ -283,16 +265,37 @@ module.exports = function(grunt) {
             value += path.sep + key + '.js';
           }
           
-          value = value.split('\\').join('/');
-
           if (libFilesPriorities.indexOf(key) >= 0) {
             templateScripts.development.unshift(value);
           } else {
             templateScripts.development.push(value);
           }
 
+        } else {
+          templateStyles.unshift(value);
+        }
+      };
+      
+      for (var key in results) {
+        var val = results[key];
+
+        if (val.indexOf(',') >= 0) {
+          val = val.split(',');
         }
 
+        if (Array.isArray(val)) {
+          if (key === 'handlebars') {
+            prepareBowerAsset(val[1]);
+          }
+
+          for (var i = 0, j = val.length; i < j; i++) {            
+            if (((path.extname(val[i]) === '.js') && !val[i].endsWith('.min.js')) || path.extname(val[i]) === '.css') {
+              prepareBowerAsset(val[i]);
+            }
+          }
+        } else {
+          prepareBowerAsset(val);
+        }
       }
 
       templateScripts.development.push('js/<%= pkg.name %>.js');
