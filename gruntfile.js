@@ -139,9 +139,9 @@ module.exports = function(grunt) {
     },
     stylus: {
       options: {
-        paths: ['stylus'],
+        paths: ['stylus', 'stylus/lyria'],
         urlfunc: 'embedurl',
-        import: ['nib'],
+        import: ['nib', 'asset'],
       },
       development: {
         options: {
