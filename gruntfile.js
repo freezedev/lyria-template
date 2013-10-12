@@ -183,9 +183,17 @@ module.exports = function(grunt) {
         files: 'stylus/**/*.styl',
         tasks: ['stylus:development']
       },
-      prepare: {
+      assetList: {
         files: 'assets/**/*',
-        tasks: ['prepare']
+        tasks: ['lyriaAssetList']
+      },
+      scenes: {
+        files: 'assets/scenes/*',
+        tasks: ['lyriaScene']
+      },
+      i18nData: {
+        files: 'assets/i18n/**/*.json',
+        tasks: ['lyriaData']
       },
       template: {
         files: 'template.html',
@@ -196,23 +204,37 @@ module.exports = function(grunt) {
         tasks: ['concat_sourcemap']
       }
     },
-    lyria_i18n: {
+    lyriaData: {
       options: {
         namespace: '<%= pkg.name %>'
       },
       all: {
+        options: {
+          name: 'i18n'
+        },
+        dest: 'src/generated/i18n.js',
         src: ['assets/i18n/**/*.json']
       }
     },
-    lyria_assetList: {
+    lyriaAssetList: {
       options: {
         namespace: '<%= pkg.name %>'
       },
       all: {
+        dest: 'src/generated/assetlist.js',
+        src: ['assets/**/*', '!**/README.md'],
+        filter: 'isFile'
+      }
+    },
+    lyriaScene: {
+      all: {
+        options: {
+          namespace: '<%= pkg.name %>'
+        },
         files: [{
-          expand: true,
-          src: ['assets/**/*', '!**/README.md'],
-          filter: 'isFile'
+          dest: 'src/generated/scenelist.js',
+          src: ['assets/scenes/*'],
+          filter: 'isDirectory'
         }]
       }
     }
@@ -220,32 +242,6 @@ module.exports = function(grunt) {
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   grunt.loadTasks('./tasks');
-
-  var prepareScenes = require('./preparescenes');
-
-  grunt.registerMultiTask('assetArray', 'Updated asset array', function() {
-    var files = this.filesSrc;
-    
-    for (var i = 0, j = files.length; i < j; i++) {
-      (function(file) {
-        
-      })(files[i]);
-    }
-  });
-
-  grunt.registerTask('prepare', 'Updates asset array and prepares scenes', function() {
-    var done = this.async();
-    var dir = './';
-    var projectName = pkgFile.name;
-    var assetObject = {};
-
-    grunt.file.write(path.join(dir, 'src', 'generated', 'assetlist.js'), 'define("' + projectName + '/assetlist",' + JSON.stringify(assetObject) + ');');
-
-    prepareScenes(projectName, path.join(dir, 'assets', 'scenes'), path.join(dir, 'src', 'generated', 'scenelist.js'), function() {
-      grunt.log.writeln('Project built');
-      done();
-    });
-  });
 
   grunt.registerTask('bower', 'Prepares scripts using bower components', function() {
     var done = this.async();
@@ -255,7 +251,7 @@ module.exports = function(grunt) {
     }).on('end', function(results) {
       var prepareBowerAsset = function(value) {
         value = path.relative(process.cwd(), value);
-        
+
         // All forward slashes, please
         value = value.split('\\').join('/');
 
@@ -264,7 +260,7 @@ module.exports = function(grunt) {
           if (!value.endsWith('.js')) {
             value += '/' + key + '.js';
           }
-          
+
           if (libFilesPriorities.indexOf(key) >= 0) {
             templateScripts.development.unshift(value);
           } else {
@@ -275,7 +271,7 @@ module.exports = function(grunt) {
           templateStyles.unshift(value);
         }
       };
-      
+
       for (var key in results) {
         var val = results[key];
 
@@ -288,7 +284,7 @@ module.exports = function(grunt) {
             prepareBowerAsset(val[1]);
           }
 
-          for (var i = 0, j = val.length; i < j; i++) {            
+          for (var i = 0, j = val.length; i < j; i++) {
             if (((path.extname(val[i]) === '.js') && !val[i].endsWith('.min.js')) || path.extname(val[i]) === '.css') {
               prepareBowerAsset(val[i]);
             }
@@ -305,7 +301,7 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('prebuild', 'Task before building the project', ['prepare', 'lyria_assetList', 'lyria_i18n', 'concat_sourcemap', 'bower']);
+  grunt.registerTask('prebuild', 'Task before building the project', ['lyriaScene', 'lyriaAssetList', 'lyriaData', 'concat_sourcemap', 'bower']);
   grunt.registerTask('test', 'Lints JavaScript and CSS files', ['jshint']);
 
   grunt.registerTask('development', 'Development build', ['prebuild', 'stylus:development']);
@@ -316,4 +312,4 @@ module.exports = function(grunt) {
   grunt.registerTask('default', 'Default task', ['development']);
   grunt.registerTask('observe', 'Default task', ['development', 'watch']);
 
-};
+}; 
