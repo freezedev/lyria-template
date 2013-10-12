@@ -241,7 +241,6 @@ module.exports = function(grunt) {
   });
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-  grunt.loadTasks('./tasks');
 
   grunt.registerTask('bower', 'Prepares scripts using bower components', function() {
     var done = this.async();
