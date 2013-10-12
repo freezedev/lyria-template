@@ -1,9 +1,8 @@
 module.exports = function(grunt) {
 
   var fs = require('fs');
-  var bower = require('bower');
   require('es6-shim');
-  var mime = require('mime');
+  var bower = require('bower');
   var path = require('path');
 
   var pkgFile = require('./package.json');
