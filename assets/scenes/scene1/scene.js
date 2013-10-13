@@ -6,7 +6,7 @@
     Lyria.AchievementManager.show('switchScene');
   });
 
-  scene.bindEvent({
+  scene.bindEvents({
     '#btnSwitch': {
       'click': function(event) {
         scene.trigger('achievement');
