@@ -164,6 +164,7 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
       });
 
       (function() {
+        //$ Lyria Scene begin
         (function(scene) {
 
           var Lyria = scene.modules.Lyria;
@@ -172,7 +173,7 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
             Lyria.AchievementManager.show('switchScene');
           });
 
-          scene.bindEvent({
+          scene.bindEvents({
             '#btnSwitch': {
               'click': function(event) {
                 scene.trigger('achievement');
@@ -194,6 +195,7 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
 
         })(this);
 
+        //$ Lyria Scene end
       }).call(this);
 
     });
@@ -342,6 +344,7 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
       });
 
       (function() {
+        //$ Lyria Scene begin
         (function(scene) {
 
           scene.expose({
@@ -350,6 +353,7 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
 
         })(this);
 
+        //$ Lyria Scene end
       }).call(this);
 
     });
@@ -359,4 +363,6 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
 
 });
 
+/*
 //@ sourceMappingURL=scenelist.js.map
+*/
