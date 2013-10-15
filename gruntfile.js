@@ -259,6 +259,8 @@ module.exports = function(grunt) {
             value += '/' + key + '.js';
           }
 
+          uglifyLibObject[path.join(buildFolder, 'lib', path.basename(value))] = value;
+
           if (libFilesPriorities.indexOf(key) >= 0) {
             templateScripts.development.unshift(value);
           } else {
@@ -303,11 +305,13 @@ module.exports = function(grunt) {
   grunt.registerTask('test', 'Lints JavaScript and CSS files', ['jshint']);
 
   grunt.registerTask('development', 'Development build', ['prebuild', 'stylus:development']);
-  grunt.registerTask('production', 'Production build', ['prebuild', 'uglify', 'copy', 'stylus:production', 'template:production']);
+  grunt.registerTask('production', 'Production build', ['prebuild', 'bower', 'uglify', 'copy', 'stylus:production', 'template:production']);
   grunt.registerTask('deploy', 'Deploys project', ['production', 'compress:deploy']);
 
   grunt.registerTask('build', 'Builds the default project', ['development']);
   grunt.registerTask('default', 'Default task', ['development']);
+  
+  // The future in order
   grunt.registerTask('observe', 'Default task', ['development', 'watch']);
 
 }; 
