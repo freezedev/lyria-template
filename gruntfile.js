@@ -76,15 +76,7 @@ module.exports = function(grunt) {
           }
         }, {
           expand: true,
-          src: ['css/**'],
-          dest: '<%= buildFolder %>/'
-        }, {
-          expand: true,
-          src: ['favicon.ico'],
-          dest: '<%= buildFolder %>/'
-        }, {
-          expand: true,
-          src: ['*.png'],
+          src: ['css/**', 'favicon.ico', '*.png'],
           dest: '<%= buildFolder %>/'
         }]
       }
@@ -241,9 +233,7 @@ module.exports = function(grunt) {
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('bower', 'Prepares scripts using bower components', function() {
-    var done = this.async();
-
+  var bowerList = function(done) {
     bower.commands.list({
       paths: true
     }).on('end', function(results) {
@@ -259,12 +249,16 @@ module.exports = function(grunt) {
             value += '/' + key + '.js';
           }
 
-          uglifyLibObject[path.join(buildFolder, 'lib', path.basename(value))] = value;
+          var libFile = ['lib', path.basename(value)].join('/');
+          var buildLibFile = [buildFolder, libFile].join('/');
+          uglifyLibObject[buildLibFile] = value;
 
           if (libFilesPriorities.indexOf(key) >= 0) {
             templateScripts.development.unshift(value);
+            templateScripts.production.unshift(libFile);
           } else {
             templateScripts.development.push(value);
+            templateScripts.production.push(libFile);
           }
 
         } else {
@@ -295,17 +289,35 @@ module.exports = function(grunt) {
       }
 
       templateScripts.development.push('js/<%= pkg.name %>.js');
+      templateScripts.production.push('js/<%= pkg.name %>.js');
 
+      done();
+    });
+  };
+
+  grunt.registerTask('bower:development', 'Prepares scripts using bower components', function() {
+    var done = this.async();
+
+    bowerList(function() {
       grunt.task.run('template:development');
       done();
     });
   });
+  
+  grunt.registerTask('bower:production', 'Prepares scripts using bower components', function() {
+    var done = this.async();
 
-  grunt.registerTask('prebuild', 'Task before building the project', ['lyriaScene', 'lyriaAssetList', 'lyriaData', 'concat_sourcemap', 'bower']);
+    bowerList(function() {
+      grunt.task.run('template:production');
+      done();
+    });
+  });
+
+  grunt.registerTask('prebuild', 'Task before building the project', ['lyriaScene', 'lyriaAssetList', 'lyriaData', 'concat_sourcemap']);
   grunt.registerTask('test', 'Lints JavaScript and CSS files', ['jshint']);
 
-  grunt.registerTask('development', 'Development build', ['prebuild', 'stylus:development']);
-  grunt.registerTask('production', 'Production build', ['prebuild', 'bower', 'uglify', 'copy', 'stylus:production', 'template:production']);
+  grunt.registerTask('development', 'Development build', ['prebuild', 'bower:development', 'stylus:development']);
+  grunt.registerTask('production', 'Production build', ['prebuild', 'bower:production', 'uglify', 'copy', 'stylus:production']);
   grunt.registerTask('deploy', 'Deploys project', ['production', 'compress:deploy']);
 
   grunt.registerTask('build', 'Builds the default project', ['development']);
