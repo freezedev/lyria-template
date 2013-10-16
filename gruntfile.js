@@ -135,7 +135,7 @@ module.exports = function(grunt) {
       }
     },
     compress: {
-      deploy: {
+      all: {
         options: {
           archive: '<%= buildFolder %>.zip'
         },
@@ -341,7 +341,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('development', 'Development build', ['prebuild', 'bower:development', 'stylus:development']);
   grunt.registerTask('production', 'Production build', ['prebuild', 'bower:production', 'uglify', 'copy', 'stylus:production']);
-  grunt.registerTask('deploy', 'Deploys project', ['production', 'compress:deploy']);
+  grunt.registerTask('pack', 'Deploys project', ['production', 'compress']);
 
   grunt.registerTask('build', 'Builds the default project', ['development']);
   grunt.registerTask('default', 'Default task', ['development']);
