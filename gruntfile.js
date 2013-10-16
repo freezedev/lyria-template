@@ -25,6 +25,7 @@ module.exports = function(grunt) {
   var templateStyles = [];
 
   var uglifyLibObject = {};
+  var bowerStyleObject = {};
 
   for (var i = 0, j = libFiles.length; i < j; i++) {
     (function(iterator) {
@@ -62,7 +63,7 @@ module.exports = function(grunt) {
       }
     },
     copy: {
-      production: {
+      assets: {
         files: [{
           expand: true,
           src: ['assets/**'],
@@ -74,11 +75,24 @@ module.exports = function(grunt) {
               return true;
             }
           }
-        }, {
+        }]
+      },
+      root: {
+        files: [{
           expand: true,
           src: ['css/**/*', 'favicon.ico', '*.png'],
           dest: '<%= buildFolder %>/'
         }]
+      },
+      styles: {
+        files: [{
+          expand: true,
+          src: ['css/**/*'],
+          dest: '<%= buildFolder %>/'
+        }]
+      },
+      bowerStyles: {
+        files: bowerStyleObject
       }
     },
     template: {
@@ -304,7 +318,7 @@ module.exports = function(grunt) {
       done();
     });
   });
-  
+
   grunt.registerTask('bower:production', 'Prepares scripts using bower components', function() {
     var done = this.async();
 
@@ -323,8 +337,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', 'Builds the default project', ['development']);
   grunt.registerTask('default', 'Default task', ['development']);
-  
+
   // The future in order
   grunt.registerTask('observe', 'Default task', ['development', 'watch']);
 
-}; 
+};
