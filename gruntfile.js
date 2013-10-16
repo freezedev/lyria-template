@@ -22,7 +22,10 @@ module.exports = function(grunt) {
     development: [],
     production: []
   };
-  var templateStyles = [];
+  var templateStyles = {
+    development: [],
+    production: []
+  };
 
   var uglifyLibObject = {};
   var bowerStyleObject = {};
@@ -43,7 +46,8 @@ module.exports = function(grunt) {
 
   for (var k = 0, l = styleFiles.length; k < l; k++) {
     (function(iterator) {
-      templateStyles.push('css/' + iterator);
+      templateStyles.development.push('css/' + iterator);
+      templateStyles.production.push('css/' + iterator);
     })(styleFiles[k]);
   }
 
@@ -103,7 +107,7 @@ module.exports = function(grunt) {
         variables: {
           livereload: true,
           scripts: templateScripts.development,
-          styles: templateStyles,
+          styles: templateStyles.development,
           mainModule: pkgFile.name,
           title: '<%= lyriaConfig.title %> (Development build <%= buildVersion %>)',
           description: lyriaConfig.description,
@@ -117,7 +121,7 @@ module.exports = function(grunt) {
         variables: {
           livereload: false,
           scripts: templateScripts.production,
-          styles: templateStyles,
+          styles: templateStyles.production,
           mainModule: pkgFile.name,
           title: lyriaConfig.title,
           description: lyriaConfig.description,
@@ -276,7 +280,11 @@ module.exports = function(grunt) {
           }
 
         } else {
-          templateStyles.unshift(value);
+          var styleFile = ['css', path.basename(value)].join('/');
+          bowerStyleObject[[buildFolder, styleFile].join('/')] = value;
+          
+          templateStyles.development.unshift(value);
+          templateStyles.production.unshift(styleFile);
         }
       };
 
