@@ -20,7 +20,7 @@
     "grunt-contrib-compress": "*",
     "grunt-templater": "*",
     "grunt-bower-commands": "*",
-    "grunt-lyria-assets": "0.2.0-beta8",
+    "grunt-lyria-assets": "~0.2.0",
     "matchdep": "*"
   },
   "scripts": {
