@@ -1,6 +1,6 @@
 {
   "name": "mygame",
-  "version": "0.2.0-beta6",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "bower": "~1.2.0",
@@ -25,6 +25,7 @@
     "matchdep": "*"
   },
   "scripts": {
+    "start": "grunt deploy",
     "test": "grunt test"
   },
   "repository": {
