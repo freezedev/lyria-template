@@ -18,6 +18,7 @@
     "grunt-contrib-copy": "*",
     "grunt-contrib-clean": "*",
     "grunt-contrib-compress": "*",
+    "grunt-contrib-connect": "*",
     "grunt-templater": "*",
     "grunt-bower-commands": "*",
     "grunt-lyria-assets": "~0.2.0",
