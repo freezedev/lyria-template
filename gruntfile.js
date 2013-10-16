@@ -68,7 +68,7 @@ module.exports = function(grunt) {
           src: ['assets/**'],
           dest: '<%= buildFolder %>/',
           filter: function(filepath) {
-            if ((filepath.indexOf('/scenes') >= 0) || (filepath.indexOf('/prefabs') >= 0)) {
+            if ((filepath.indexOf(path.sep + 'scenes') >= 0) || (filepath.indexOf(path.sep + 'prefabs') >= 0)) {
               return false;
             } else {
               return true;
@@ -76,7 +76,7 @@ module.exports = function(grunt) {
           }
         }, {
           expand: true,
-          src: ['css/**', 'favicon.ico', '*.png'],
+          src: ['css/**/*', 'favicon.ico', '*.png'],
           dest: '<%= buildFolder %>/'
         }]
       }
