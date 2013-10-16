@@ -276,13 +276,14 @@ module.exports = function(grunt) {
         if (Array.isArray(val)) {
           if (key === 'handlebars') {
             prepareBowerAsset(val[1]);
-          }
-
-          for (var i = 0, j = val.length; i < j; i++) {
-            if (((path.extname(val[i]) === '.js') && !val[i].endsWith('.min.js')) || path.extname(val[i]) === '.css') {
-              prepareBowerAsset(val[i]);
+          } else {
+            for (var i = 0, j = val.length; i < j; i++) {
+              if (((path.extname(val[i]) === '.js') && !val[i].endsWith('.min.js')) || path.extname(val[i]) === '.css') {
+                prepareBowerAsset(val[i]);
+              }
             }
           }
+
         } else {
           prepareBowerAsset(val);
         }
