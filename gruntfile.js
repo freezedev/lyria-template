@@ -11,6 +11,8 @@ module.exports = function(grunt) {
   var buildPrefix = 'builds';
   var buildVersion = pkgFile.version + '-' + grunt.template.today("yymmdd-HHMMss");
   var buildId = pkgFile.name + '-v' + buildVersion;
+  buildId = grunt.option('build') || buildId;
+  
   var buildFolder = [buildPrefix, buildId].join('/');
 
   var libFiles = (fs.existsSync('./lib')) ? fs.readdirSync('./lib') : [];
@@ -245,13 +247,25 @@ module.exports = function(grunt) {
       }
     },
     lyriaScene: {
-      all: {
-        options: {
-          namespace: '<%= pkg.name %>'
-        },
+      options: {
+        namespace: '<%= pkg.name %>'
+      },
+      scenes: {
         files: [{
           dest: 'src/generated/scenelist.js',
           src: ['assets/scenes/*'],
+          filter: 'isDirectory'
+        }]
+      },
+      prefabs: {
+        options: {
+          name: 'prefablist',
+          entryFile: 'prefab.js',
+          markupFile: 'prefab.html'
+        },
+        files: [{
+          dest: 'src/generated/prefablist.js',
+          src: ['assets/prefabs/*'],
           filter: 'isDirectory'
         }]
       }
