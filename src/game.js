@@ -1,6 +1,6 @@
 define('mygame', 
-  ['lyria/game', 'lyria/localization/group', 'mygame/achievements', 'mygame/scenelist', 'mygame/assetlist', 'mygame/i18n'], 
-  function(Game, LocalizationGroup, achievements, sceneList, assetList, i18n) {
+  ['lyria/game', 'lyria/localization/group', 'mygame/achievements', 'mygame/scenelist', 'mygame/prefablist', 'mygame/assetlist', 'mygame/i18n', 'lyria/prefab/manager'], 
+  function(Game, LocalizationGroup, achievements, sceneList, prefabList, assetList, i18n, PrefabManager) {
   'use strict';
   
   // Create a new game object
@@ -14,7 +14,12 @@ define('mygame',
 	console.log(myGame);
 	
 	// Set generated scene files
-	myGame.director.scenes = sceneList();
+	myGame.director.scenes = sceneList({
+	  'lyria/prefab/manager': 'Lyria.PrefabManager'
+	});
+	
+	// Set generated prefab files
+	PrefabManager.prefabs = prefabList();
 	
 	// If preloader is complete, everything in this function happens
 	myGame.preloader.on('complete', function() {
