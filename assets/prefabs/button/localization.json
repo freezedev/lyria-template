@@ -1,10 +1,8 @@
 {
 	"en": {
-		"title": "This is {{name}}",
-		"btnSwitchToNextScene": "Switch to next scene"
+		"button": "You clicked the button.",
 	},
 	"de": {
-		"title": "Das ist {{name}}",
-		"btnSwitchToNextScene": "Zur nächsten Szene wechseln"
+		"button": "Du hast du den Button angeklickt.",
 	}
 }

@@ -1,29 +1,23 @@
-(function(scene) {
-  
-  var Lyria = scene.modules.Lyria;
+(function() {
 
-  scene.on('achievement', function() {
-    Lyria.AchievementManager.show('switchScene');
-  });
+  var self = this;
 
-  scene.bindEvents({
-    '#btnSwitch': {
+  // Get title from data if available
+  var title = this.data.title;
+
+  // Bind DOM events
+  this.bindEvents({
+    '.button': {
       'click': function(event) {
-        scene.trigger('achievement');
-        scene.parent.show('scene2');
+        // Provide localized value
+        alert(self.t('button'));
       }
     }
   });
 
-  scene.expose({
-    test: "Hallo",
-    title: scene.t('title', {
-      name: scene.name
-    })
+  // Expose title to the template
+  this.expose({
+    title: title || 'My button'
   });
 
-  console.log(scene);
-  console.log(scene.game);
-  scene.log('yeeha!');
-
-})(this);
+}).call(this);
