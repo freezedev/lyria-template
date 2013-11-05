@@ -365,7 +365,7 @@ module.exports = function(grunt) {
   grunt.registerTask('development', 'Development build', ['test', 'prebuild', 'bower:development', 'stylus:development']);
   grunt.registerTask('production', 'Production build', ['test', 'prebuild', 'bower:production', 'uglify', 'copy', 'stylus:production']);
   grunt.registerTask('pack', 'Packs project', ['production', 'compress']);
-  grunt.registerTask('deploy', 'Builds project in production mode and starts a local server', ['production', 'connect'])
+  grunt.registerTask('deploy', 'Builds project in production mode and starts a local server', ['production', 'connect']);
 
   grunt.registerTask('build', 'Builds the default project', ['development']);
   grunt.registerTask('default', 'Default task', ['development']);
