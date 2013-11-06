@@ -178,6 +178,9 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
+      options: {
+        jshintrc: '.jshintrc'
+      },
       assets: {
         src: ['assets/**/*.js']
       },
