@@ -319,15 +319,16 @@ module.exports = function(grunt) {
         }
 
         if (Array.isArray(val)) {
-          if (key === 'handlebars') {
-            prepareBowerAsset(val[1]);
-          } else {
+          // TODO: Handlebars doesn't need special treatment right now, but will once we use the AMD version
+          //if (key === 'handlebars') {
+          //  prepareBowerAsset(val[1]);
+          //} else {
             for (var i = 0, j = val.length; i < j; i++) {
               if (((path.extname(val[i]) === '.js') && !val[i].endsWith('.min.js')) || path.extname(val[i]) === '.css') {
                 prepareBowerAsset(val[i]);
               }
             }
-          }
+          //}
 
         } else {
           prepareBowerAsset(val);
