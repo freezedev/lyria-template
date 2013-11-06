@@ -14,9 +14,7 @@ define('mygame',
 	console.log(myGame);
 	
 	// Set generated scene files
-	myGame.director.scenes = sceneList({
-	  'lyria/prefab/manager': 'Lyria.PrefabManager'
-	});
+	myGame.director.scenes = sceneList();
 	
 	// Set generated prefab files
 	PrefabManager.prefabs = prefabList();
