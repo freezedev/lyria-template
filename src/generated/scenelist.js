@@ -25,6 +25,7 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
           }
         });
         this.template = this.template || {};
+        this.template.data = {};
         this.template.partials = {};
         this.template.source = TemplateEngine.compile(function(Handlebars, depth0, helpers, partials, data) {
           this.compilerInfo = [4, '>= 1.0.0'];
@@ -113,7 +114,7 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
             if (stack1 || stack1 === 0) {
               buffer += stack1;
             }
-            buffer += "\r\n";
+            buffer += "    \r\n";
             return buffer;
           }
 
@@ -179,7 +180,6 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
             scene.bindEvents({
               '#btnSwitch': {
                 'click': function(event) {
-                  scene.game.checkpoints.pass('achievement');
                   scene.trigger('achievement');
                   scene.parent.show('scene2');
                 }
@@ -218,6 +218,7 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
           "de": {}
         });
         this.template = this.template || {};
+        this.template.data = {};
         this.template.partials = {};
         this.template.source = TemplateEngine.compile(function(Handlebars, depth0, helpers, partials, data) {
           this.compilerInfo = [4, '>= 1.0.0'];
@@ -305,7 +306,7 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
             if (stack1 || stack1 === 0) {
               buffer += stack1;
             }
-            buffer += "\r\n";
+            buffer += "    \r\n";
             return buffer;
           }
 
@@ -377,7 +378,6 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
             });
 
             scene.on('more-buttons', function(index) {
-              console.log(scene.game.checkpoints);
               Lyria.PrefabManager.append({
                 name: 'button',
                 parent: scene.$element
