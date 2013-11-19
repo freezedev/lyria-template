@@ -39,3 +39,7 @@ Using the lyria template:
 * `grunt development`: Builds the current project
 * `grunt production`: Builds the current project, minifies everything and places it in the `builds` folder
 * `grunt deploy`: Does a production builds and makes a package out of it
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/freezedev/lyria-template/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
