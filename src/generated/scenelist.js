@@ -173,6 +173,10 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
 
             var Lyria = scene.modules.Lyria;
 
+            scene.on('active', function() {
+              console.log('active: ' + scene.name);
+            });
+
             scene.on('achievement', function() {
               Lyria.AchievementManager.show('switchScene');
             });
@@ -359,6 +363,10 @@ define('mygame/scenelist', ['lyria/scene', 'lyria/template/engine', 'lyria/local
           (function(scene) {
 
             var Lyria = scene.modules.Lyria;
+
+            scene.on('active', function() {
+              console.log('active: ' + scene.name);
+            });
 
             scene.on('active', function() {
               Lyria.PrefabManager.append({
