@@ -22,7 +22,14 @@
     {{/each}}
 
     {{#if livereload}}
-    <script src="http://localhost:35729/livereload.js"></script>
+    <script>
+      var lrScript = document.createElement('script');
+
+      lrScript.type = 'text/javascript';
+      lrScript.src = '//' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js';
+      
+      document.head.appendChild(lrScript);
+    </script>
     {{/if}}
     {{#each scripts}}
     <script src="{{.}}"></script>
