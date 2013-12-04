@@ -68,6 +68,7 @@ module.exports = function(grunt) {
         dest: 'js/<%= pkg.name %>.js'
       }
     },
+    clean: ['js', 'src/generated'],
     copy: {
       assets: {
         files: [{
@@ -367,10 +368,10 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('prebuild', 'Task before building the project', ['lyriaScene', 'lyriaAssetList', 'lyriaData', 'concat_sourcemap']);
-  grunt.registerTask('test', 'Lints JavaScript and CSS files', ['jshint']);
+  grunt.registerTask('test', 'Lints JavaScript and CSS files', ['test']);
 
-  grunt.registerTask('development', 'Development build', ['test', 'prebuild', 'bower:development', 'stylus:development']);
-  grunt.registerTask('production', 'Production build', ['test', 'prebuild', 'bower:production', 'uglify', 'copy', 'stylus:production']);
+  grunt.registerTask('development', 'Development build', ['test', 'clean', 'prebuild', 'bower:development', 'stylus:development']);
+  grunt.registerTask('production', 'Production build', ['test', 'clean', 'prebuild', 'bower:production', 'uglify', 'copy', 'stylus:production']);
   grunt.registerTask('pack', 'Packs project', ['production', 'compress']);
   grunt.registerTask('deploy', 'Builds project in production mode and starts a local server', ['production', 'connect']);
 
