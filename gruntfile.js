@@ -368,7 +368,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('prebuild', 'Task before building the project', ['lyriaScene', 'lyriaAssetList', 'lyriaData', 'concat_sourcemap']);
-  grunt.registerTask('test', 'Lints JavaScript and CSS files', ['test']);
+  grunt.registerTask('test', 'Lints JavaScript and CSS files', ['jshint']);
 
   grunt.registerTask('development', 'Development build', ['test', 'clean', 'prebuild', 'bower:development', 'stylus:development']);
   grunt.registerTask('production', 'Production build', ['test', 'clean', 'prebuild', 'bower:production', 'uglify', 'copy', 'stylus:production']);
