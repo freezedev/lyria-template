@@ -19,6 +19,7 @@ module.exports = function(grunt) {
   var styleFiles = (fs.existsSync('./css')) ? fs.readdirSync('./css') : [];
 
   var libFilesPriorities = ['almond', 'handlebars', 'fastclick', 'udefine'];
+  var skipLibs = ['mocha', 'chai'];
 
   var templateScripts = {
     development: [],
@@ -319,6 +320,10 @@ module.exports = function(grunt) {
       };
 
       for (var key in results) {
+        if (skipLibs.indexOf(key) >= 0) {
+          continue;
+        }
+        
         var val = results[key];
 
         if (val.indexOf(',') >= 0) {
