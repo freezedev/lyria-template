@@ -18,7 +18,7 @@ module.exports = function(grunt) {
   var libFiles = (fs.existsSync('./lib')) ? fs.readdirSync('./lib') : [];
   var styleFiles = (fs.existsSync('./css')) ? fs.readdirSync('./css') : [];
 
-  var libFilesPriorities = ['almond', 'handlebars', 'fastclick', 'udefine'];
+  var libFilesPriorities = ['almond', 'fastclick', 'udefine'];
   var skipLibs = ['mocha', 'chai'];
 
   var templateScripts = {
