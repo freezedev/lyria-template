@@ -324,6 +324,12 @@ module.exports = function(grunt) {
           continue;
         }
         
+        // Use Handlebars AMD version
+        if (key === 'handlebars') {
+          prepareBowerAsset('bower_components/handlebars/handlebars.amd.js');
+          continue;
+        }
+        
         var val = results[key];
 
         if (val.indexOf(',') >= 0) {
@@ -331,16 +337,11 @@ module.exports = function(grunt) {
         }
 
         if (Array.isArray(val)) {
-          // TODO: Handlebars doesn't need special treatment right now, but will once we use the AMD version
-          //if (key === 'handlebars') {
-          //  prepareBowerAsset(val[1]);
-          //} else {
-            for (var i = 0, j = val.length; i < j; i++) {
-              if (((path.extname(val[i]) === '.js') && !val[i].endsWith('.min.js')) || path.extname(val[i]) === '.css') {
-                prepareBowerAsset(val[i]);
-              }
+          for (var i = 0, j = val.length; i < j; i++) {
+            if (((path.extname(val[i]) === '.js') && !val[i].endsWith('.min.js')) || path.extname(val[i]) === '.css') {
+              prepareBowerAsset(val[i]);
             }
-          //}
+          }
 
         } else {
           prepareBowerAsset(val);
