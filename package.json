@@ -22,7 +22,8 @@
     "grunt-templater": "~0.0.4",
     "grunt-bower-commands": "0.1.0-alpha2",
     "grunt-lyria-assets": "~0.2.0",
-    "matchdep": "~0.3.0"
+    "matchdep": "~0.3.0",
+    "grunt-amd-tamer": "~0.1.7"
   },
   "scripts": {
     "start": "grunt deploy",
