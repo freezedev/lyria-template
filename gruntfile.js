@@ -44,7 +44,7 @@ module.exports = function(grunt) {
     })(libFiles[i]);
   }
 
-  uglifyLibObject[buildFolder + '/js/<%= pkg.name %>.js'] = '<%= concat_sourcemap.dist.dest %>';
+  uglifyLibObject[buildFolder + '/js/<%= pkg.name %>.js'] = '<%= amd_tamer.dist.dest %>';
   //templateScripts.push('js/<%= pkg.name %>.js');
 
   for (var k = 0, l = styleFiles.length; k < l; k++) {
@@ -59,10 +59,10 @@ module.exports = function(grunt) {
     lyriaConfig: lyriaConfig,
     buildVersion: buildVersion,
     buildFolder: buildFolder,
-    concat_sourcemap: {
+    amd_tamer: {
       options: {
-        sourcesContent: true,
-        sourceRoot: '/'
+        namespace: '<%= pkg.name %>',
+        base: 'src/'
       },
       dist: {
         src: ['src/**/*.js'],
@@ -373,7 +373,7 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('prebuild', 'Task before building the project', ['lyriaScene', 'lyriaAssetList', 'lyriaData', 'concat_sourcemap']);
+  grunt.registerTask('prebuild', 'Task before building the project', ['lyriaScene', 'lyriaAssetList', 'lyriaData', 'amd_tamer']);
   grunt.registerTask('test', 'Lints JavaScript and CSS files', ['jshint']);
 
   grunt.registerTask('development', 'Development build', ['test', 'clean', 'prebuild', 'bower:development', 'stylus:development']);
