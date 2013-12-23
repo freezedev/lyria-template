@@ -15,22 +15,18 @@ define('mygame', ['lyria/game', 'lyria/localization/group', 'mygame/achievements
 
   // Set generated prefab files
   PrefabManager.prefabs = prefabList();
-
-  // Scenes needs to be added asynchronously
-  myGame.preloader.taskAsync(function(done) {
-    // Add "scene1" to director
-    myGame.director.add('scene1', null, done);
-  });
-
-  myGame.preloader.taskAsync(function(done) {
-    // Add "scene2" to director
-    myGame.director.add('scene2', null, done);
-  });
+  
+  // myGame allows to add scenes directly, which internally uses the scene director
+  myGame
+    // Add "scene1"
+    .addScene('scene1')
+    // Add "scene2"
+    .addScene('scene2');
 
   // If preloader is complete, everything in this function happens
   myGame.preloader.on('complete', function() {
     // Show "scene1"
-    myGame.director.show('scene1');
+    myGame.showScene('scene1');
   });
 
   // Set asset list for preloader
