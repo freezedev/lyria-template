@@ -1,0 +1,4 @@
+js/**/* -crlf -merge
+css/**/* -crlf -merge
+doc/**/* -crlf -merge
+index.html -crlf -merge
