@@ -1,4 +1,4 @@
-define('mygame/achievements', ['lyria/achievement', 'lyria/achievement/manager'], function(Achievement, AchievementManager) {
+define(['lyria/achievement', 'lyria/achievement/manager'], function(Achievement, AchievementManager) {
   
   return function(viewport, i18n) {
     
