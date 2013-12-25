@@ -152,7 +152,7 @@ module.exports = function(grunt) {
     },
     stylus: {
       options: {
-        paths: ['stylus', 'stylus/lyria'],
+        paths: ['stylus/app', 'stylus/lyria'],
         urlfunc: 'embedurl',
         import: ['nib', 'asset'],
       },
@@ -162,7 +162,7 @@ module.exports = function(grunt) {
           linenos: true
         },
         files: {
-          'css/<%= pkg.name %>.css': 'stylus/**/*.styl'
+          'css/<%= pkg.name %>.css': 'stylus/app/**/*.styl'
         }
       },
       production: {
@@ -170,7 +170,7 @@ module.exports = function(grunt) {
           compress: true
         },
         files: {
-          '<%= buildFolder %>/css/<%= pkg.name %>.css': 'stylus/**/*.styl'
+          '<%= buildFolder %>/css/<%= pkg.name %>.css': 'stylus/app/**/*.styl'
         }
       }
     },
