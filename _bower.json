@@ -1,0 +1,21 @@
+{
+  "name": "<%= projectName %>",
+  "version": "<%= version %>",
+  "main": "index.html",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "lyria": "~0.2.11",
+    "normalize-css": "~2.1.2",
+    "fastclick": "~0.6.9"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
+  }
+}
