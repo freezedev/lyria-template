@@ -11,7 +11,6 @@ Dependencies
 * Require.JS or any other AMD loader (Lyria uses with Almond.JS by default)
 * Modernizr (Optional, but included by default)
 * Detectr
-* checkt
 
 Features
 --------
