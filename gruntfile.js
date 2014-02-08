@@ -256,7 +256,8 @@ module.exports = function(grunt) {
     },
     lyriaScene: {
       options: {
-        namespace: '<%= pkg.name %>'
+        namespace: '<%= pkg.name %>',
+        shortNames: true
       },
       scenes: {
         files: [{
