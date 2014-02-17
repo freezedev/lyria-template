@@ -20,8 +20,10 @@
     "grunt-contrib-connect": "~0.5.0",
     "grunt-templater": "~0.0.4",
     "grunt-lyria-assets": "~0.2.0",
-    "matchdep": "~0.3.0",
-    "grunt-amd-tamer": "~0.1.7"
+    "grunt-amd-tamer": "~0.1.7",
+    "time-grunt": "~0.2.9",
+    "grunt-newer": "~0.6.1",
+    "jit-grunt": "~0.2.1"
   },
   "scripts": {
     "start": "grunt deploy",
