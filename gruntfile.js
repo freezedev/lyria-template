@@ -1,4 +1,6 @@
 module.exports = function(grunt) {
+  
+  require('time-grunt')(grunt);
 
   var fs = require('fs');
   require('es6-shim');
@@ -209,27 +211,27 @@ module.exports = function(grunt) {
       },
       stylus: {
         files: 'stylus/**/*.styl',
-        tasks: ['stylus:development']
+        tasks: ['newer:stylus:development']
       },
       assetList: {
         files: 'assets/**/*',
-        tasks: ['lyriaAssetList']
+        tasks: ['newer:lyriaAssetList']
       },
       scenes: {
         files: 'assets/scenes/*',
-        tasks: ['lyriaScene']
+        tasks: ['newer:lyriaScene']
       },
       i18nData: {
         files: 'assets/i18n/**/*.json',
-        tasks: ['lyriaData']
+        tasks: ['newer:lyriaData']
       },
       template: {
         files: 'template.html',
-        tasks: ['bower']
+        tasks: ['newer:bower']
       },
       concat: {
         files: 'src/**/*.js',
-        tasks: ['concat_sourcemap']
+        tasks: ['newer:amd_tamer']
       }
     },
     lyriaData: {
@@ -281,7 +283,10 @@ module.exports = function(grunt) {
     }
   });
 
-  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+  grunt.loadNpmTasks('grunt-lyria-assets');
+  grunt.loadNpmTasks('grunt-amd-tamer');
+  grunt.loadNpmTasks('grunt-templater');
+  require('jit-grunt')(grunt);
 
   var bowerList = function(done) {
     bower.commands.list({
