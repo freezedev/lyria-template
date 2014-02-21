@@ -7,11 +7,13 @@ Lyria Project Template
 Dependencies
 ------------
 
-* Handlebars Runtime (default templating engine of Lyria)
-* Require.JS or any other AMD loader (Lyria uses with Almond.JS by default)
+* Lyria and its dependencies:
+  * Handlebars Runtime (default templating engine of Lyria)
+  * Require.JS or any other AMD loader (Lyria uses with Almond.JS by default)
+  * Detectr
+  * Eventmap
+  * Gameboard
 * Modernizr (Optional, but included by default)
-* Detectr
-* Lyris of course
 
 Features
 --------
