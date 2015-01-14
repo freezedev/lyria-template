@@ -1,33 +1,39 @@
 {
-  "name": "lyria-template",
+  "name": "mygame",
   "version": "0.2.6",
   "dependencies": {
-    "bower": "~1.2.0",
-    "es6-shim": "~0.9.0",
-    "handlebars": "~1.1.0"
+    "bower": "^1.3.12",
+    "es6-shim": "^0.22.2",
+    "handlebars": "^2.0.0"
   },
   "devDependencies": {
     "grunt": "0.4.x",
-    "grunt-contrib-jshint": "~0.7.1",
-    "grunt-concat-sourcemap": "~0.4.0",
-    "grunt-contrib-uglify": "~0.2.5",
-    "grunt-contrib-stylus": "~0.11.0",
-    "grunt-contrib-csslint": "~0.2.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-compress": "~0.5.2",
-    "grunt-contrib-connect": "~0.5.0",
-    "grunt-templater": "~0.0.4",
-    "grunt-lyria-assets": "~0.2.0",
     "grunt-amd-tamer": "~0.1.7",
-    "time-grunt": "~0.2.9",
-    "grunt-newer": "~0.6.1",
-    "jit-grunt": "~0.2.1"
+    "grunt-bowercopy": "^1.2.0",
+    "grunt-cli": "^0.1.13",
+    "grunt-concat-sourcemap": "~0.4.0",
+    "grunt-consolidate": "^0.1.0",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-compress": "^0.13.0",
+    "grunt-contrib-connect": "^0.9.0",
+    "grunt-contrib-copy": "^0.7.0",
+    "grunt-contrib-csslint": "^0.3.1",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-stylus": "^0.20.0",
+    "grunt-contrib-uglify": "^0.7.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-lyria-assets": "~0.2.0",
+    "grunt-newer": "^1.1.0",
+    "jit-grunt": "^0.9.0",
+    "load-grunt-config": "^0.16.0",
+    "rupture": "^0.6.1",
+    "time-grunt": "^1.0.0"
   },
   "scripts": {
     "start": "grunt deploy",
-    "test": "grunt test"
+    "test": "grunt test",
+	"grunt": "grunt",
+	"bower": "bower"
   },
   "repository": {
     "type": "git",
