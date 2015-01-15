@@ -24,5 +24,7 @@ module.exports = (grunt) ->
   grunt.registerTask 'build', 'Builds the default project', ['development']
   grunt.registerTask 'default', 'Default task', ['development']
 
+  grunt.registerTask 'test', ['lint']
+
   # The future in order
   grunt.registerTask 'observe', 'Default task', ['development', 'watch']
