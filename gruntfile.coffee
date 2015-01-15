@@ -12,12 +12,12 @@ module.exports = (grunt) ->
                                                                       'amd_tamer:dist']
   grunt.registerTask 'lint', 'Lints JavaScript and CSS files', ['jshint']
 
-  grunt.registerTask 'development', 'Development build', ['clean:build', 'prebuild', 'copy', 'bowercopy',
+  grunt.registerTask 'development', 'Development build', ['clean:build', 'prebuild', 'copy:assets', 'copy:root', 'bowercopy',
                                                           'stylus:development', 'amd_tamer:all',
                                                           'clean:build_debug_js',
                                                           'consolidate:development']
-  grunt.registerTask 'production', 'Production build', ['clean', 'prebuild', 'bowercopy:production', 'uglify',
-                                                        'copy', 'stylus:production', 'consolidate:production']
+  grunt.registerTask 'production', 'Production build', ['development', 'copy:production', 'uglify',
+                                                        'stylus:production', 'consolidate:production']
   grunt.registerTask 'pack', 'Packs project', ['production', 'compress']
   grunt.registerTask 'deploy', 'Builds project in production mode and starts a local server', ['production', 'connect']
 
