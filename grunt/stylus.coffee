@@ -10,3 +10,9 @@ module.exports =
       linenos: true
     files:
       'build/debug/css/<%= package.name %>.css': 'stylus/app/**/*.styl'
+  production:
+    options:
+      compress: true
+      linenos: false
+    files:
+      'build/debug/css/<%= package.name %>.css': 'stylus/app/**/*.styl'
