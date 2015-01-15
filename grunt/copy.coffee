@@ -18,3 +18,10 @@ module.exports = (grunt) ->
       src: ['favicon.ico', '*.png'],
       dest: 'build/debug/'
     }]
+  production:
+    files: [{
+      expand: true
+      cwd: 'build/debug/'
+      src: ['*/**']
+      dest: 'build/production/'
+    }]
