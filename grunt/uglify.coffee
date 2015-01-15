@@ -1,3 +1,4 @@
-module.exports = {}
-  #production:
-  #  files: uglifyLibObject
+module.exports =
+  production:
+    files:
+      'build/production/all.js': 'build/production/all.js'
