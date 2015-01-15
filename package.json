@@ -1,10 +1,6 @@
 {
   "name": "mygame",
   "version": "0.2.6",
-  "dependencies": {
-    "es6-shim": "^0.22.2",
-    "handlebars": "^2.0.0"
-  },
   "devDependencies": {
     "grunt": "0.4.x",
     "grunt-amd-tamer": "~0.1.7",
