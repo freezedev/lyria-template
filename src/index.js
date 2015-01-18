@@ -1,4 +1,14 @@
-define('mygame', ['lyria/game', 'lyria/localization/group', 'mygame/achievements', 'mygame/scenelist', 'mygame/prefablist', 'mygame/assetlist', 'mygame/i18n', 'lyria/prefab/manager'], function(Game, LocalizationGroup, achievements, sceneList, prefabList, assetList, i18n, PrefabManager) {'use strict';
+define(['require'], function(require) {'use strict';
+
+  // Loading all necessary modules
+  var Game = require('lyria/game');
+  var LocalizationGroup = require('lyria/localization/group');
+  var achievements = require('mygame/achievements');
+  var sceneList = require('mygame/scenelist');
+  var prefabList = require('mygame/prefablist');
+  var assetList = require('mygame/assetlist');
+  var i18n = require('mygame/i18n');
+  var PrefabManager = require('lyria/prefab/manager');
 
   // Create a new game object
   var myGame = new Game();
