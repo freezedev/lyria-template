@@ -1,5 +1,8 @@
-define(['lyria/achievement', 'lyria/achievement/manager'], function(Achievement, AchievementManager) {
-  
+define(['require'], function(require) {
+
+  var Achievement = require('lyria/achievement');
+  var AchievementManager = require('lyria/achievement/manager');
+
   return function(viewport, i18n) {
     
     AchievementManager.viewport = viewport;
