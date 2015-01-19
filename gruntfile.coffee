@@ -28,4 +28,4 @@ module.exports = (grunt) ->
   # The future in order
   grunt.registerTask 'observe', ['development', 'watch']
 
-  grunt.registerTask 'default', 'Default task', ['observe']
+  grunt.registerTask 'default', 'Default task', ['concurrent']
