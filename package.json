@@ -25,10 +25,10 @@
     "time-grunt": "^1.0.0"
   },
   "scripts": {
-    "start": "grunt deploy",
-    "test": "grunt test",
-	"grunt": "grunt",
-	"bower": "bower"
+    "start": "npm grunt deploy",
+    "test": "npm grunt test",
+    "grunt": "grunt",
+    "bower": "bower"
   },
   "repository": {
     "type": "git",
