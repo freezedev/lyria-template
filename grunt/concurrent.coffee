@@ -1,2 +1,5 @@
 module.exports =
-  dev: ['observe', 'connect']
+  dev:
+    tasks: ['observe', 'connect']
+    options:
+      logConcurrentOutput: true
