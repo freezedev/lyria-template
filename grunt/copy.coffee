@@ -8,7 +8,7 @@ module.exports = (grunt) ->
       expand: true,
       cwd: 'assets',
       src: ['*/**'],
-      dest: 'build/debug/assets',
+      dest: '<%= buildDebug %>/assets',
       filter: (filepath) ->
         not ((filepath.indexOf(path.sep + 'scenes') >= 0) || (filepath.indexOf(path.sep + 'prefabs') >= 0))
     }]
@@ -16,12 +16,12 @@ module.exports = (grunt) ->
     files: [{
       expand: true,
       src: ['favicon.ico', '*.png'],
-      dest: 'build/debug/'
+      dest: '<%= buildDebug %>/'
     }]
-  production:
+  release:
     files: [{
       expand: true
-      cwd: 'build/debug/'
+      cwd: '<%= buildDebug %>/'
       src: ['*/**']
-      dest: 'build/production/'
+      dest: '<%= buildRelease %>/'
     }]
