@@ -1,19 +1,19 @@
 module.exports =
   options:
     engine: 'handlebars'
-  development:
+  debug:
     options:
       local:
         livereload: true,
         mainModule: '<%= package.name %>',
         title: '<%= package.name %> - Development build',
     files:
-      'build/debug/index.html': 'template/index.html'
-  production:
+      '<%= buildDebug %>/index.html': 'template/index.html'
+  release:
     options:
       local:
         livereload: false,
         mainModule: '<%= package.name %>'
         title: '<%= package.name %>'
     files:
-      'build/production/index.html': 'template/index.html'
+      '<%= buildRelease %>/index.html': 'template/index.html'
