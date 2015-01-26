@@ -4,5 +4,5 @@ module.exports =
   all:
     options:
       name: 'i18n'
-    dest: 'build/debug/js/i18n.js',
+    dest: '<%= buildDebug %>/js/i18n.js',
     src: ['assets/i18n/**/*.json']
