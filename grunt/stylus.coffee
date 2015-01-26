@@ -4,15 +4,15 @@ module.exports =
     urlfunc: 'embedurl'
     use: [require('rupture')]
     import: ['nib', 'rupture', 'asset']
-  development:
+  debug:
     options:
       compress: false
       linenos: true
     files:
-      'build/debug/css/<%= package.name %>.css': 'stylus/app/**/*.styl'
-  production:
+      '<%= buildDebug %>/css/<%= package.name %>.css': 'stylus/app/**/*.styl'
+  release:
     options:
       compress: true
       linenos: false
     files:
-      'build/debug/css/<%= package.name %>.css': 'stylus/app/**/*.styl'
+      '<%= buildDebug %>/css/<%= package.name %>.css': 'stylus/app/**/*.styl'
