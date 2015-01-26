@@ -18,6 +18,7 @@
     "grunt-contrib-stylus": "^0.20.0",
     "grunt-contrib-uglify": "^0.7.0",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-gh-pages": "^0.9.1",
     "grunt-lyria-assets": "~0.2.0",
     "grunt-newer": "^1.1.0",
     "jit-grunt": "^0.9.0",
