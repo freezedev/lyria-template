@@ -10,7 +10,7 @@
     "tests"
   ],
   "dependencies": {
-    "lyria": "master",
+    "lyria": "0.3.0-alpha3",
     "normalize-css": "~2.1.2",
     "fastclick": "~0.6.9"
   },
