@@ -2,5 +2,5 @@ module.exports =
   built:
     options:
       keepalive: true,
-      base: '<%= buildFolder %>/',
+      base: '<%= buildDebug %>/',
       port: 9000
