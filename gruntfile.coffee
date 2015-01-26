@@ -16,11 +16,11 @@ module.exports = (grunt) ->
   grunt.registerTask 'lint', 'Lints JavaScript and CSS files', ['jshint']
 
 
-  grunt.registerTask 'build:debug', 'Development build', ['clean:build', 'prebuild', 'copy:assets', 'copy:root', 'bowercopy',
-                                                          'stylus:development', 'amd_tamer:all',
+  grunt.registerTask 'build:debug', 'Debug build', ['clean:build', 'prebuild', 'copy:assets', 'copy:root', 'bowercopy',
+                                                          'stylus:debug', 'amd_tamer:all',
                                                           'clean:build_debug_js',
-                                                          'consolidate:development']
-  grunt.registerTask 'build:release', 'release build', ['development', 'copy:release', 'uglify',
+                                                          'consolidate:debug']
+  grunt.registerTask 'build:release', 'release build', ['build:debug', 'copy:release', 'uglify',
                                                         'stylus:release', 'consolidate:release']
   grunt.registerTask 'pack', 'Packs project', ['build:release', 'compress']
   grunt.registerTask 'deploy', 'Builds project in release mode and deploys to Github Pages', ['clean:gh_pages',
