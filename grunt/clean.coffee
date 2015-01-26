@@ -1,4 +1,4 @@
 module.exports =
   build: ['build']
-  build_debug_js: ['build/debug/js']
+  build_debug_js: ['<%= buildDebug %>/js']
   gh_pages: ['.grunt']
