@@ -7,28 +7,31 @@ module.exports = (grunt) ->
         lyriaData: 'grunt-lyria-assets'
         lyriaAssetList: 'grunt-lyria-assets'
         lyriaScene: 'grunt-lyria-assets'
+    data:
+      buildDebug: 'build/debug'
+      buildRelease: 'build/release'
 
   grunt.registerTask 'prebuild', 'Task before building the project', ['lyriaScene', 'lyriaAssetList', 'lyriaData',
                                                                       'amd_tamer:dist']
   grunt.registerTask 'lint', 'Lints JavaScript and CSS files', ['jshint']
 
-  grunt.registerTask 'development', 'Development build', ['clean:build', 'prebuild', 'copy:assets', 'copy:root', 'bowercopy',
+
+  grunt.registerTask 'build:debug', 'Development build', ['clean:build', 'prebuild', 'copy:assets', 'copy:root', 'bowercopy',
                                                           'stylus:development', 'amd_tamer:all',
                                                           'clean:build_debug_js',
                                                           'consolidate:development']
-  grunt.registerTask 'production', 'Production build', ['development', 'copy:production', 'uglify',
-                                                        'stylus:production', 'consolidate:production']
-  grunt.registerTask 'pack', 'Packs project', ['production', 'compress']
-  grunt.registerTask 'deploy', 'Builds project in production mode and deploys to Github Pages', ['clean:gh_pages',
-                                                                                                 'production',
+  grunt.registerTask 'build:release', 'release build', ['development', 'copy:release', 'uglify',
+                                                        'stylus:release', 'consolidate:release']
+  grunt.registerTask 'pack', 'Packs project', ['build:release', 'compress']
+  grunt.registerTask 'deploy', 'Builds project in release mode and deploys to Github Pages', ['clean:gh_pages',
+                                                                                                 'build:release',
                                                                                                  'gh-pages']
-  grunt.registerTask 'build', 'Builds the default project', ['development']
 
-  grunt.registerTask 'run', 'Builds the project and serves it', ['development', 'connect']
+  grunt.registerTask 'run', 'Builds the project and serves it', ['build:debug', 'connect']
 
   grunt.registerTask 'test', ['lint']
 
   # The future in order
-  grunt.registerTask 'observe', ['development', 'watch']
+  grunt.registerTask 'observe', ['build:debug', 'watch']
 
   grunt.registerTask 'default', 'Default task', ['concurrent']
