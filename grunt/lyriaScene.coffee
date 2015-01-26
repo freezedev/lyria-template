@@ -4,7 +4,7 @@ module.exports =
     shortNames: true
   scenes:
     files: [{
-      dest: 'build/debug/js/scenelist.js',
+      dest: '<%= buildDebug %>/js/scenelist.js',
       src: ['assets/scenes/*'],
       filter: 'isDirectory'
     }]
@@ -14,7 +14,7 @@ module.exports =
       entryFile: 'prefab.js',
       markupFile: 'prefab.html'
     files: [{
-      dest: 'build/debug/js/prefablist.js',
+      dest: '<%= buildDebug %>/js/prefablist.js',
       src: ['assets/prefabs/*'],
       filter: 'isDirectory'
     }]
