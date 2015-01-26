@@ -1,5 +1,5 @@
 module.exports =
   deploy:
     options:
-      base: 'build/production'
+      base: '<%= buildRelease %>'
     src: ['**/*']
