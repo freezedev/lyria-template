@@ -24,6 +24,8 @@ module.exports = (grunt) ->
                                                                                                  'gh-pages']
   grunt.registerTask 'build', 'Builds the default project', ['development']
 
+  grunt.registerTask 'run', 'Builds the project and serves it', ['development', 'connect']
+
   grunt.registerTask 'test', ['lint']
 
   # The future in order
