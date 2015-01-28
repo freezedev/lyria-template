@@ -28,10 +28,20 @@ define(['require'], function(require) {'use strict';
   
   // myGame allows to add scenes directly, which internally uses the scene director
   myGame
+    // Add loading scene
+    .addScene('loading')
     // Add "scene1"
     .addScene('scene1')
     // Add "scene2"
     .addScene('scene2');
+
+  // Pass progress event through to the loading scene
+  myGame.preloader.on('progress', function(percentage) {
+    // TODO: Make sure this is always the loading scene
+    if (myGame.director.currentScene && myGame.director.currentScene.name === 'loading') {
+      myGame.director.currentScene.trigger(percentage);
+    }
+  });
 
   // If preloader is complete, everything in this function happens
   myGame.preloader.on('complete', function() {
@@ -44,6 +54,9 @@ define(['require'], function(require) {'use strict';
 
   // Spin up the preloader
   myGame.preloader.start();
+
+  // Set loading scene
+  myGame.preloader.loadingScene = 'loading';
 
   return myGame;
 }); 
