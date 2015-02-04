@@ -38,9 +38,9 @@ Navigate into the folder where extracted the template and run `npm install`.
 
 Using the lyria template:
 * `grunt`: Same as `grunt development`
-* `grunt development`: Builds the current project
-* `grunt production`: Builds the current project, minifies everything and places it in the `builds` folder
-* `grunt deploy`: Does a production builds and makes a package out of it
+* `grunt build:debug`: Builds the current project in debug mode
+* `grunt build:release`: Builds the current project in release mode
+* `grunt deploy`: Does a release build and deploys it on Github pages of the current repository
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/freezedev/lyria-template/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
