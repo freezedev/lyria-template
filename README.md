@@ -31,7 +31,7 @@ Getting started
 ---------------
 
 Prerequisites:  
-Node.js 0.10 or higher needs to be installed
+Node.js 0.10 or higher (or iojs) needs to be installed
   
 Go ahead and download the latest template version.  
 Navigate into the folder where extracted the template and run `npm install`.
