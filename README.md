@@ -4,10 +4,12 @@ Lyria Project Template
 [![Dependency Status](https://david-dm.org/freezedev/lyria-template.png)](https://david-dm.org/freezedev/lyria-template)
 [![devDependency Status](https://david-dm.org/freezedev/lyria-template/dev-status.png)](https://david-dm.org/freezedev/lyria-template#info=devDependencies)
 
+This is a project template for the Lyria game engine.
+
 Dependencies
 ------------
 
-* Lyria and its dependencies:
+* [Lyria](https://github.com/freezedev/lyria) and its dependencies:
   * Handlebars Runtime (default templating engine of Lyria)
   * Require.JS or any other AMD loader (Lyria uses with Almond.JS by default)
   * Detectr
